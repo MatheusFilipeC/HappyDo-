@@ -1,0 +1,23 @@
+.viewReport{
+  width: 595px !important;
+  height: 841px;
+  overflow: hidden; /* Evita que o conteúdo extrapole */
+  font-size: 12px;
+}
+
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.task-table th,
+.task-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.task-table th {
+  background-color: #419eeb;
+}

@@ -1,0 +1,216 @@
+<div class="w-full bg-slate-100 min-h-dvh">
+  <app-menu></app-menu>
+
+
+
+
+
+  <div class="w-full flex flex-wrap justify-center gap-3 p-2">
+    <p-card class="w-full min-w-[324px] flex-1 max-w-[calc(50%-0.75rem)]  widthFullCard"
+      [style]="{background: 'lightgray'}">
+      <div class="w-full flex items-center justify-between text-white">
+        <h2 class="text-xl font-semibold italic">Gasto mensal total</h2>
+        <i class="pi pi-dollar text-xl"></i>
+      </div>
+      <p-divider />
+      <div class="w-full text-center">
+        <span class="text-2xl text-white italic font-semibold">
+          {{ formatValueCurrencyBR(valueExpenseTotal) }}
+        </span>
+      </div>
+    </p-card>
+
+    <p-card class="w-full min-w-[324px] flex-1 max-w-[calc(50%-0.75rem)]  widthFullCard" [style]="{background: 'blue'}">
+      <div class="w-full flex items-center justify-between">
+        <h2 class="text-xl font-semibold italic text-white">Gastos não essenciais</h2>
+        <i class="pi pi-info-circle text-xl text-white"></i>
+      </div>
+      <p-divider />
+      <div class="w-full text-center">
+        <span class="text-2xl text-white italic font-semibold">
+          {{ formatValueCurrencyBR(totalValueNo_essential) }}
+        </span>
+      </div>
+    </p-card>
+
+    <p-card class="w-full min-w-[324px] flex-1 max-w-[calc(50%-0.75rem)]  widthFullCard" [style]="{background: 'red'}">
+      <div class="w-full flex items-center justify-between text-white">
+        <h2 class="text-xl font-semibold italic">Gastos essenciais</h2>
+        <i class="pi pi-wave-pulse text-xl"></i>
+      </div>
+      <p-divider />
+      <div class="w-full text-center text-white">
+        <span class="text-2xl text-white italic font-semibold">
+          {{ formatValueCurrencyBR(totalValueEssential) }}
+        </span>
+      </div>
+    </p-card>
+
+    <p-card *ngIf="userRole === 'USER'" class="w-full min-w-[324px] flex-1 max-w-[calc(50%-0.75rem)]  widthFullCard"
+      [style]="{background: 'lightgreen'}">
+      <div class="w-full flex items-center justify-between text-white">
+        <h2 class="text-xl font-semibold italic">Saldo disponível</h2>
+        <i class="pi pi-verified text-xl"></i>
+      </div>
+      <p-divider />
+      <div class="w-full text-center text-white">
+        <span class="text-2xl text-white italic font-semibold">
+          {{ formatValueCurrencyBR(totalBalance) }}
+        </span>
+      </div>
+    </p-card>
+  </div>
+
+
+
+  <div class="w-full p-3 flex flex-col gap-3 justify-center containerTablePadding">
+
+    <div class="w-full">
+      <p-card class="w-full h-full">
+        <p-tabs value="0" scrollable class="w-full h-full">
+          <p-tablist>
+            <ng-template #previcon>
+              <i class="pi pi-minus"></i>
+            </ng-template>
+            <p-tab value="0">
+              <i class="pi pi-wave-pulse"></i>
+              <span class="font-bold whitespace-nowrap fontSizeMedium">Gastos essenciais</span>
+            </p-tab>
+            <p-tab value="1">
+              <i class="pi pi-info-circle"></i>
+              <span class="font-bold whitespace-nowrap fontSizeMedium">Não essenciais</span>
+            </p-tab>
+            <ng-template #nexticon>
+              <i class="pi pi-plus"></i>
+            </ng-template>
+          </p-tablist>
+
+          <p-tabpanels class="pt-1 panelsTab">
+
+
+            <p-tabpanel value="0">
+
+              <div class="w-full">
+                <div class="card">
+                  <p-table [value]="listEssentialExpenses" stripedRows scrollHeight="220px">
+                    <ng-template #caption>
+                      <div class="flex items-center justify-between">
+                        <span class="text-xl font-bold fontSizeMedium">Gastos essenciais</span>
+                        <p-button (onClick)="reloadTableData()" [loading]="loading" icon="pi pi-refresh" rounded
+                          raised />
+                      </div>
+                    </ng-template>
+                    <ng-template #header>
+                      <tr>
+                        <th class="fontSizeSmall">ID</th>
+                        <th class="fontSizeSmall">Produto</th>
+                        <th class="fontSizeSmall">Descrição</th>
+                        <th class="fontSizeSmall">Categoria</th>
+                        <th class="fontSizeSmall">Registro do gasto</th>
+                        <th class="fontSizeSmall">Preço</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template #body let-product>
+                      <tr>
+                        <td class="text-sm">{{ product.id }}</td>
+                        <td class="text-sm">{{ product.produto }}</td>
+                        <td class="text-sm">{{ product.descricao }}</td>
+                        <td class="text-sm">{{ product.categoria }}</td>
+                        <td class="text-sm">{{ product.dataGasto }}</td>
+                        <td class="text-sm">{{ formatValueCurrencyBR(product.valor)}}</td>
+                        <td class="text-sm">
+                          <p-button icon="pi pi-times" [loading]="loadingDelete" (onClick)="deleteExpense(product)"
+                            [rounded]="true" severity="danger" />
+                        </td>
+                      </tr>
+                    </ng-template>
+
+                    <ng-template #emptymessage>
+                      <div class="w-full flex justify-center p-4 widthEmptyMessage">
+                        <h2 class="text-lg font-semibold italic fontSizeMedium">Sem registro de dados na tabela</h2>
+                      </div>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+
+            </p-tabpanel>
+
+            <p-tabpanel value="1">
+
+              <div class="w-full">
+                <div class="card">
+                  <p-table [value]="listEssentialExpensesNo" stripedRows scrollHeight="220px">
+                    <ng-template #caption>
+                      <div class="flex items-center justify-between">
+                        <span class="text-xl font-bold">Gastos não essenciais</span>
+                        <p-button icon="pi pi-refresh" (onClick)="reloadTableData()" [loading]="loading" rounded
+                          raised />
+                      </div>
+                    </ng-template>
+                    <ng-template #header>
+                      <tr>
+                        <th>ID</th>
+                        <th>Produto</th>
+                        <th>Descrição</th>
+                        <th>Categoria</th>
+                        <th>Registro do gasto</th>
+                        <th>Preço</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template #body let-product>
+                      <tr>
+                        <td class="text-sm">{{ product.id }}</td>
+                        <td class="text-sm">{{ product.produto }}</td>
+                        <td class="text-sm">{{ product.descricao }}</td>
+                        <td class="text-sm">{{ product.categoria }}</td>
+                        <td class="text-sm">{{ product.dataGasto }}</td>
+                        <td class="text-sm">{{ formatValueCurrencyBR(product.valor) }}</td>
+                        <td class="text-sm">
+                          <p-button icon="pi pi-times" [loading]="loadingDelete" (onClick)="deleteExpense(product)"
+                            [rounded]="true" severity="danger" />
+                        </td>
+
+
+                      </tr>
+                    </ng-template>
+
+                    <ng-template #emptymessage>
+                      <div class="w-full flex justify-center p-4">
+                        <h2 class="text-lg font-semibold italic">Sem registro de dados na tabela</h2>
+                      </div>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+
+            </p-tabpanel>
+
+          </p-tabpanels>
+
+        </p-tabs>
+      </p-card>
+
+    </div>
+
+    <p-toast
+      [breakpoints]="{'768px': {width: '60%', right: '0', left: '0'}, '425px': {width: '90%', right: '0', left: '0'} }"
+      [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'1000ms'" [hideTransitionOptions]="'1000ms'"
+      [showTransformOptions]="'translateX(100%)'" />
+
+    <p-confirmdialog />
+
+
+    <div class="w-full">
+      <app-form-expense (refreshList)="reloadTableData()"></app-form-expense>
+    </div>
+
+
+
+  </div>
+
+
+
+
+
+</div>

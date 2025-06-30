@@ -1,0 +1,173 @@
+<div class="card">
+  <p-menubar [model]="items">
+    <ng-template #start>
+
+      <app-drawer></app-drawer>
+
+    </ng-template>
+
+    <ng-template #item let-item let-root="root">
+      <a *ngIf="item.routerLink; else noRouterLink" [routerLink]="item.routerLink" routerLinkActive="active"
+        class="flex items-center p-menubar-item-link" pRipple>
+
+        <span>{{ item.label }}</span>
+
+        <span *ngIf="item.shortcut"
+          class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{ item.shortcut}}
+        </span>
+
+        <img *ngIf="item.items" width="13" height="13"
+          [ngClass]="['ml-auto pi', root ? 'pi-angle-down' : 'pi-angle-right']"
+          src="https://cdn-icons-png.flaticon.com/512/2985/2985150.png" alt="seta">
+
+      </a>
+      <ng-template #noRouterLink>
+
+        <a *ngIf="item.url" [href]="item.url" class="flex items-center p-menubar-item-link" pRipple>
+
+          <span>{{ item.label }}</span>
+
+          <span *ngIf="item.shortcut"
+            class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{ item.shortcut}}
+          </span>
+
+          <img *ngIf="item.items" width="13" height="13"
+            [ngClass]="['ml-auto pi', root ? 'pi-angle-down' : 'pi-angle-right']"
+            src="https://cdn-icons-png.flaticon.com/512/2985/2985150.png" alt="seta">
+
+        </a>
+
+        <span *ngIf="!item.url" class="flex items-center p-menubar-item-link">
+          <span>{{ item.label }}</span>
+          <span *ngIf="item.shortcut"
+            class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{ item.shortcut
+            }}</span>
+          <img *ngIf="item.items" width="13" height="13"
+            [ngClass]="['ml-auto pi', root ? 'pi-angle-down' : 'pi-angle-right']"
+            src="https://cdn-icons-png.flaticon.com/512/2985/2985150.png" alt="seta">
+        </span>
+      </ng-template>
+    </ng-template>
+
+    <ng-template #end>
+      <div class="flex items-center gap-2">
+
+        <p-chip [label]="nameUser" image="https://primefaces.org/cdn/primeng/images/demo/avatar/walter.jpg"
+          alt="Avatar User" class="cursor-pointer" (click)="openModalUpdateManager()" />
+
+        <div>
+          <p-button pTooltip="Sair" icon="pi pi pi-sign-out" [rounded]="true" severity="danger" [outlined]="true" (onClick)="logoutUser()" />
+        </div>
+
+
+        <p-drawer [(visible)]="visible" [closable]="false" position="right">
+          <ng-template #header>
+            <div class="flex flex-col w-full">
+              <div class="flex items-center gap-2">
+                <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
+                <span class="font-bold">{{nameUser}}</span>
+              </div>
+
+              <div>
+                <div class="w-full pt-2 text-center">
+                  <h2 class="text-lg italic font-semibold text-blue-700">Editar Perfil</h2>
+                </div>
+
+                <p-divider type="solid" />
+              </div>
+            </div>
+          </ng-template>
+          <div class="w-full">
+
+            <form [formGroup]="registerForm" (ngSubmit)="onUpdateUser()" class="space-y-4 py-1">
+
+
+          
+              <div>
+                <app-input-global [control]="registerForm.get('nome')" name="nome" id="nome" label="Nome Completo"
+                  [class]="(registerForm.controls['nome'].invalid && (registerForm.controls['nome'].touched || registerForm.controls['nome'].dirty))? classError : class"
+                  typeInput="text"></app-input-global>
+
+                <div
+                  *ngIf="(registerForm.controls['nome'].invalid && (registerForm.controls['nome'].touched || registerForm.controls['nome'].dirty))">
+
+                  <span class="text-xs text-red-600 font-semibold"
+                    *ngIf="registerForm.controls['nome'].errors?.['required']">Nome precisa ser preenchido!</span>
+
+                  <span class="text-xs text-red-600 font-semibold"
+                    *ngIf="registerForm.controls['nome'].errors?.['minlength']">Nome precisa ser maior que 2
+                    caracteres!</span>
+                </div>
+              </div>
+
+              
+              <div>
+                <app-input-global [control]="registerForm.get('email')!" name="email" id="email" label="E-mail"
+                  typeInput="email"
+                  [class]="(registerForm.controls['email'].invalid && (registerForm.controls['email'].touched || registerForm.controls['email'].dirty))? classError : class"></app-input-global>
+
+                <div
+                  *ngIf="(registerForm.controls['email'].invalid && (registerForm.controls['email'].touched || registerForm.controls['email'].dirty))">
+
+                  <span class="text-xs text-red-600 font-semibold"
+                    *ngIf="registerForm.controls['email'].errors?.['required']">E-mail precisa ser preenchido!</span>
+
+                  <span class="text-xs text-red-600 font-semibold"
+                    *ngIf="registerForm.controls['email'].errors?.['email']">E-mail com formato inválido</span>
+                </div>
+
+              </div>
+              
+              <div class="w-full">
+                <app-input-password-global [control]="registerForm.get('senha')!" id="senha" name="senha"
+                  placeholder="Senha"
+                  [class]="(registerForm.controls['senha'].invalid && (registerForm.controls['senha'].touched || registerForm.controls['senha'].dirty))? classError : class">
+                </app-input-password-global>
+
+                <div
+                  *ngIf="(registerForm.controls['senha'].invalid && (registerForm.controls['senha'].touched || registerForm.controls['senha'].dirty))">
+
+                  <span class="text-xs text-red-600 font-semibold"
+                    *ngIf="registerForm.controls['senha'].errors?.['required']">Senha precisa ser preenchido!</span>
+
+                  <span class="text-xs text-red-600 font-semibold"
+                    *ngIf="registerForm.controls['senha'].errors?.['minlength']">Senha precisa ser maior que 6
+                    caracteres!</span>
+                </div>
+              </div>
+
+
+              <div class="card flex justify-center">
+                <p-select [options]="typeUser" formControlName="role" optionDisabled="disabled" [checkmark]="true"
+                  name="role" optionLabel="role" placeholder="Role" class="w-full" />
+              </div>
+
+
+              
+              <div class="flex justify-center content-center">
+                <p-button label="Atualizar" [loading]="loading" type="submit" [disabled]="registerForm.invalid"
+                  [rounded]="true" size="large" [raised]="true" class="w-full" styleClass="width-full"></p-button>
+              </div>
+
+            </form>
+          </div>
+
+          <ng-template #footer>
+            <div class="flex items-center gap-2">
+              <button pButton label="Entrar" icon="pi pi-user" class="w-full" disabled outlined></button>
+              <button pButton label="Sair" (click)="logoutUser()" icon="pi pi-sign-out" class="w-full" severity="danger"
+                text></button>
+            </div>
+          </ng-template>
+        </p-drawer>
+
+      </div>
+    </ng-template>
+
+
+  </p-menubar>
+
+  <app-toast-global [key]="keyToast">
+  </app-toast-global>
+
+</div>

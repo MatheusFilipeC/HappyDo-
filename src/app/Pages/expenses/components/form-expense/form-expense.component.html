@@ -1,0 +1,113 @@
+<p-card class="w-full" header="Registro de gastos">
+  <form [formGroup]="registerForm" (ngSubmit)="onExpense()">
+
+    <div class="w-full flex pt-3 gap-3 flexColumnContainer">
+
+      <div class="mb-4 w-full">
+        <app-input-global [control]="registerForm.get('titulo')" id="titulo" label="Título" typeInput="text"
+          [class]="(registerForm.controls['titulo'].invalid && (registerForm.controls['titulo'].touched || registerForm.controls['titulo'].dirty))? classError : class"></app-input-global>
+
+        <div
+          *ngIf="(registerForm.controls['titulo'].invalid && (registerForm.controls['titulo'].touched || registerForm.controls['titulo'].dirty))">
+
+          <span class="text-xs text-red-600 font-semibold"
+            *ngIf="registerForm.controls['titulo'].errors?.['required']">Título precisa ser preenchido!</span>
+
+          <span class="text-xs text-red-600 font-semibold"
+            *ngIf="registerForm.controls['titulo'].errors?.['minlength']">Título precisa ser maior que 2
+            caracteres!</span>
+
+        </div>
+      </div>
+
+      <div class="mb-4 w-1/2 widthInputFull">
+
+        <div class="card flex justify-center">
+          <p-select [options]="typeCategory" formControlName="categoria" optionDisabled="disabled" [checkmark]="true"
+            name="category" optionLabel="category" placeholder="Categoria"
+            [class]="(registerForm.controls['categoria'].invalid && (registerForm.controls['categoria'].touched || registerForm.controls['categoria'].dirty))? classError : class" />
+        </div>
+
+        <div
+          *ngIf="(registerForm.controls['categoria'].invalid && (registerForm.controls['categoria'].touched || registerForm.controls['categoria'].dirty))">
+
+          <span class="text-xs text-red-600 font-semibold"
+            *ngIf="registerForm.controls['categoria'].errors?.['required']">Categoria precisa ser preenchido!</span>
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="flex w-full gap-2 flexColumnContainer">
+
+      <div class="w-full mb-4">
+
+        <p-inputnumber formControlName="valor" name="valor" id="valor" inputId="currency-br" mode="currency"
+          currency="BRL" locale="pt-BR" placeholder="Valor"
+          [class]="(registerForm.controls['valor'].invalid && (registerForm.controls['valor'].touched || registerForm.controls['valor'].dirty))? classError : class" />
+
+        <div
+          *ngIf="(registerForm.controls['valor'].invalid && (registerForm.controls['valor'].touched || registerForm.controls['valor'].dirty))">
+
+          <span class="text-xs text-red-600 font-semibold"
+            *ngIf="registerForm.controls['valor'].errors?.['required']">Valor precisa ser preenchido!</span>
+
+        </div>
+
+
+
+      </div>
+
+      <div class="w-full marginButtomInput">
+        <app-input-global [control]="registerForm.get('produto')" id="produto" label="Produto" typeInput="text"
+          [class]="(registerForm.controls['produto'].invalid && (registerForm.controls['produto'].touched || registerForm.controls['produto'].dirty))? classError : class"></app-input-global>
+
+
+        <div
+          *ngIf="(registerForm.controls['produto'].invalid && (registerForm.controls['produto'].touched || registerForm.controls['produto'].dirty))">
+
+          <span class="text-xs text-red-600 font-semibold"
+            *ngIf="registerForm.controls['produto'].errors?.['required']">Produto precisa ser preenchido!</span>
+
+
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="w-full py-2">
+      <p-floatlabel variant="on">
+        <textarea pTextarea id="over_label" formControlName="descricao" name="descricao" rows="5" cols="30"
+          style="resize: none"
+          [class]="(registerForm.controls['descricao'].invalid && (registerForm.controls['descricao'].touched || registerForm.controls['descricao'].dirty))? classError : class"></textarea>
+        <label for="on_label">Descrição</label>
+      </p-floatlabel>
+
+      <div
+        *ngIf="(registerForm.controls['descricao'].invalid && (registerForm.controls['descricao'].touched || registerForm.controls['descricao'].dirty))">
+
+        <span class="text-xs text-red-600 font-semibold"
+          *ngIf="registerForm.controls['descricao'].errors?.['required']">Descrição precisa ser preenchido!</span>
+
+        <span class="text-xs text-red-600 font-semibold"
+          *ngIf="registerForm.controls['descricao'].errors?.['minlength']">Descrição precisa ser maior que 5
+          caracteres!</span>
+      </div>
+    </div>
+
+    <div class="w-full flex justify-center p-4">
+      <p-button label="Registrar" type="submit" [loading]="loading" [rounded]="true" size="large" [raised]="true"
+        class="w-full" styleClass="width-full" [disabled]="registerForm.invalid"></p-button>
+    </div>
+
+
+
+    <app-toast-global [key]="keyToast">
+    </app-toast-global>
+
+  </form>
+</p-card>

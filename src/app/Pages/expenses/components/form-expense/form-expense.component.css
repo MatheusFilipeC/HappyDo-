@@ -1,0 +1,13 @@
+@media (max-width:740px) {
+  .flexColumnContainer {
+    flex-direction: column;
+  }
+
+  .widthInputFull {
+    width: 100% !important;
+  }
+
+  .marginButtomInput {
+    margin-bottom: 1rem
+  }
+}

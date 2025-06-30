@@ -1,0 +1,174 @@
+<div class="card flex justify-center">
+
+  <p-dialog header="Adicionar Tarefa" [modal]="true" [closable]="true" [(visible)]="visible"
+    [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="true">
+
+    <div class="w-full p-4 paddingForm">
+      <form [formGroup]="registerForm" (ngSubmit)="onAddTask()">
+
+        <div class="mb-4">
+          <app-input-global [control]="registerForm.get('titulo')" id="titulo" label="Titulo" typeInput="text"
+            [class]="(registerForm.controls['titulo'].invalid && (registerForm.controls['titulo'].touched || registerForm.controls['titulo'].dirty))? classError : class"></app-input-global>
+
+          <div
+            *ngIf="(registerForm.controls['titulo'].invalid && (registerForm.controls['titulo'].touched || registerForm.controls['titulo'].dirty))">
+
+            <span class="text-xs text-red-600 font-semibold"
+              *ngIf="registerForm.controls['titulo'].errors?.['required']">Titulo precisa ser preenchido!</span>
+
+            <span class="text-xs text-red-600 font-semibold"
+              *ngIf="registerForm.controls['titulo'].errors?.['minlength']">Titulo precisa ser maior que 3
+              caracteres!</span>
+          </div>
+        </div>
+
+
+        <div class="mb-4">
+          <app-input-global [control]="registerForm.get('categoria')" id="categoria" label="Categoria" typeInput="text"
+            [class]="(registerForm.controls['categoria'].invalid && (registerForm.controls['categoria'].touched || registerForm.controls['categoria'].dirty))? classError : class"></app-input-global>
+
+          <div
+            *ngIf="(registerForm.controls['categoria'].invalid && (registerForm.controls['categoria'].touched || registerForm.controls['categoria'].dirty))">
+
+            <span class="text-xs text-red-600 font-semibold"
+              *ngIf="registerForm.controls['categoria'].errors?.['required']">Categoria precisa ser preenchido!</span>
+
+            <span class="text-xs text-red-600 font-semibold"
+              *ngIf="registerForm.controls['categoria'].errors?.['minlength']">Categoria precisa ser maior que 3
+              caracteres!</span>
+          </div>
+        </div>
+
+        <div class="w-full flex gap-2 mb-4 containerData">
+
+          <div class="w-full">
+            <p-select [options]="this.frequence" formControlName="frequencia" name="frequencia" [checkmark]="true"
+              (onChange)="onSelectedFrequence($event)" optionLabel="choose" [showClear]="true" placeholder="Frequência"
+              [class]="(registerForm.controls['frequencia'].invalid && (registerForm.controls['frequencia'].touched || registerForm.controls['frequencia'].dirty))? classError : class" />
+
+            <div
+              *ngIf="(registerForm.controls['frequencia'].invalid && (registerForm.controls['frequencia'].touched || registerForm.controls['frequencia'].dirty))">
+
+              <span class="text-xs text-red-600 font-semibold"
+                *ngIf="registerForm.controls['frequencia'].errors?.['required']">Frequencia precisa ser
+                preenchido!</span>
+            </div>
+
+          </div>
+
+          <div *ngIf="daysWeekDisabled" class="w-full">
+            <p-multiselect [options]="days" formControlName="diasSemana" placeholder="Dias da semana" optionLabel="day"
+              [overlayVisible]="false" [showToggleAll]="false" display="chip"
+              emptyFilterMessage="Nenhum resultado encontrado" [showClear]="true" styleClass="w-full"
+              scrollHeight="150px"
+              [class]="(registerForm.controls['diasSemana'].invalid && (registerForm.controls['diasSemana'].touched || registerForm.controls['diasSemana'].dirty))? classError : class" />
+
+            <div
+              *ngIf="(registerForm.controls['diasSemana'].invalid && (registerForm.controls['diasSemana'].touched || registerForm.controls['diasSemana'].dirty))">
+
+              <span class="text-xs text-red-600 font-semibold"
+                *ngIf="registerForm.controls['diasSemana'].errors?.['required']">Dias da semana precisa ser
+                preenchido!</span>
+            </div>
+
+          </div>
+
+
+
+        </div>
+
+
+        <div class="w-full flex mb-4 containerData">
+
+          <div class="w-full">
+
+            <p-floatlabel variant="in">
+              <p-datepicker styleClass="width-full" inputId="in_label" formControlName="dataInicio" nome="dataInicio"
+                showIcon iconDisplay="input" readonlyInput [minDate]="dateStart" dateFormat="dd-mm-yy"
+                [class]="(registerForm.controls['dataInicio'].invalid && (registerForm.controls['dataInicio'].touched || registerForm.controls['dataInicio'].dirty))? classError : class" />
+              <label for="in_label">Data de início</label>
+            </p-floatlabel>
+
+
+            <div
+              *ngIf="(registerForm.controls['dataInicio'].invalid && (registerForm.controls['dataInicio'].touched || registerForm.controls['dataInicio'].dirty))">
+
+              <span class="text-xs text-red-600 font-semibold"
+                *ngIf="registerForm.controls['descricao'].errors?.['required']">Data de início precisa ser
+                preenchido!</span>
+
+            </div>
+
+          </div>
+
+
+          <div class="w-full">
+
+
+            <p-floatlabel variant="in">
+              <p-datepicker styleClass="width-full" inputId="in_label" formControlName="dataFim" nome="dataFim" showIcon
+                iconDisplay="input" readonlyInput [minDate]="dateEndMin" dateFormat="dd-mm-yy"
+                [class]="(registerForm.controls['dataFim'].invalid && (registerForm.controls['dataFim'].touched || registerForm.controls['dataFim'].dirty))? classError : class" />
+              <label for="in_label">Data de término</label>
+            </p-floatlabel>
+
+
+            <div
+              *ngIf="(registerForm.controls['dataFim'].invalid && (registerForm.controls['dataFim'].touched || registerForm.controls['dataFim'].dirty))">
+
+
+              <span class="text-xs text-red-600 font-semibold"
+                *ngIf="registerForm.controls['dataFim'].errors?.['required']">Data de término precisa ser
+                preenchido!</span>
+
+
+            </div>
+
+
+
+          </div>
+
+
+
+        </div>
+
+
+        <div class="w-full mb-4">
+          <p-floatlabel variant="on">
+            <textarea pTextarea id="over_label" formControlName="descricao" name="descricao" rows="5" cols="30"
+              style="resize: none"
+              [class]="(registerForm.controls['descricao'].invalid && (registerForm.controls['descricao'].touched || registerForm.controls['descricao'].dirty))? classError : class"></textarea>
+            <label for="on_label">Descrição</label>
+          </p-floatlabel>
+
+          <div
+            *ngIf="(registerForm.controls['descricao'].invalid && (registerForm.controls['descricao'].touched || registerForm.controls['descricao'].dirty))">
+
+            <span class="text-xs text-red-600 font-semibold"
+              *ngIf="registerForm.controls['descricao'].errors?.['required']">Descrição precisa ser preenchido!</span>
+
+            <span class="text-xs text-red-600 font-semibold"
+              *ngIf="registerForm.controls['descricao'].errors?.['minlength']">Descrição precisa ser maior que 8
+              caracteres!
+            </span>
+          </div>
+        </div>
+
+
+
+
+        <div class="flex justify-center content-center">
+          <p-button label="Confirmar" type="submit" [loading]="loading" [rounded]="true" size="large" [raised]="true"
+            class="w-full" styleClass="width-full" [disabled]="registerForm.invalid"></p-button>
+        </div>
+
+
+      </form>
+
+    </div>
+  </p-dialog>
+
+  <app-toast-global [key]="keyToast">
+  </app-toast-global>
+
+</div>

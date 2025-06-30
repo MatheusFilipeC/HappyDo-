@@ -1,0 +1,115 @@
+<div class="w-full bg-slate-100 min-h-dvh">
+  <app-menu></app-menu>
+
+  <div class="w-full p-2">
+
+    <div class="w-full">
+
+      <p-card header="Lista de tarefas dos mentorados">
+        <div class="w-full flex justify-end py-4">
+          <div class="w-72">
+            <p-select class="w-full" [options]="nameMentee" name="selectedUser" [checkmark]="true" optionLabel="mentee"
+              [showClear]="true" placeholder="Mentorado" (onChange)="onMenteeSelect($event.value)" />
+          </div>
+        </div>
+
+
+
+        <div class="w-full">
+          <p-orderlist [value]="products" [responsive]="true" filterBy="titulo" filterPlaceholder="Titulo"
+            scrollHeight="26rem">
+
+            <ng-template let-option let-selected="selected" #item>
+
+
+              <div class="flex flex-wrap p-1 items-center gap-4 w-full containerContentItem">
+
+                <div class="md:w-20 relative containerTagFrequence">
+                  <i class="block xl:block mx-auto rounded-border w-full pi pi-th-large text-2xl text-amber-300"
+                    alt="Tarefas"></i>
+                  <p-tag [value]="option.frequencia" [severity]="(option)" class="absolute" [style.left.px]="20"
+                    [style.top.px]="-12" styleClass="tag-manager-list" />
+                </div>
+
+
+                <div class="flex-1 flex flex-col">
+                  <span class="font-medium text-sm">{{ option.titulo }}</span>
+                  <span [ngClass]="{
+                              'text-sm': true,
+                              'text-surface-500': !selected,
+                              'dark:text-surface-400': !selected,
+                              'text-inherit': selected,
+                          }">{{ option.descricao }}</span>
+                </div>
+
+                <div class="flex flex-col">
+                  <span class="font-bold sm:ml-8 fontResponsiveSmall">{{option.categoria }}</span>
+                  <span class="font-normal text-xs sm:ml-8"><b class="italic">Início:</b> {{option.dataInicio }} <b
+                      class="italic">até </b> {{option.dataFim}}</span>
+                </div>
+
+
+                <div class="flex-1 flex justify-center">
+                  <div class="flex flex-col">
+                    <span class="text-sm font-medium text-center fontResponsiveSmall">Mentorado</span>
+                    <span
+                      [ngClass]="['italic', 'text-xs', 'font-medium', option.sinalizadaUsuario ?'text-green-400':'text-yellow-500']">
+                      {{option.sinalizadaUsuario?'Sinalizada como concluída':'Tarefa em andamento'}}
+                    </span>
+                  </div>
+
+                </div>
+
+                <div class="flex flex-col">
+                  <span class="text-sm font-medium text-center fontResponsiveSmall">Concluir tarefa</span>
+                  <div class="flex justify-center flex-col">
+
+                    <p-togglebutton [(ngModel)]="option.done" (onChange)="doneTaskMentee(option)" onLabel="Concluída"
+                      [disabled]="option.done == true || option.sinalizadaUsuario == false" offLabel="Andamento"
+                      styleClass="w-36" ariaLabel="Do you confirm" />
+
+                    <span
+                      [ngClass]="['text-xs', 'font-semibold', 'italic', 'text-center', option.done == true || option.sinalizadaUsuario == false ? 'text-red-700':'text-green-600']">
+                      {{option.done == true || option.sinalizadaUsuario == false? 'Bloqueado':'Liberado'}}
+                      <i
+                        [ngClass]="['text-xs','ps-1', option.done == true || option.sinalizadaUsuario == false? 'pi pi-unlock':'pi pi-lock-open']"></i>
+                    </span>
+                  </div>
+
+                </div>
+
+                <div class="containerBtnsAction">
+                  <p-button icon="pi pi-times" [rounded]="true" [text]="true" [raised]="true" severity="danger"
+                    (onClick)="deleteTaskMentee(option)" />
+
+                  <p-button icon="pi pi-file-edit" [rounded]="true" [text]="true" [raised]="true" severity="success"
+                    [disabled]="option.done == true || option.sinalizadaUsuario == true"
+                    (onClick)="updateTaskMentee(option)" />
+
+                </div>
+
+              </div>
+
+
+            </ng-template>
+
+
+          </p-orderlist>
+
+          <p-toast
+            [breakpoints]="{'768px': {width: '60%', right: '0', left: '0'}, '425px': {width: '90%', right: '0', left: '0'} }"
+            [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'1000ms'"
+            [hideTransitionOptions]="'1000ms'" [showTransformOptions]="'translateX(100%)'" />
+          <p-confirmdialog />
+
+        </div>
+
+
+      </p-card>
+
+    </div>
+  </div>
+
+  <app-update-task-mentee (refreshList)="putTaskUpdateMentee($event)"></app-update-task-mentee>
+
+</div>

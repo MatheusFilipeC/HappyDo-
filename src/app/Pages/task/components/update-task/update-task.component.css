@@ -1,0 +1,10 @@
+@media (max-width: 425px) {
+  .paddingForm {
+    padding: 10px 0px;
+  }
+
+  .containerData{
+    flex-direction: column;
+    gap: 13px;
+  }
+}

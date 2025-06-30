@@ -1,0 +1,15 @@
+@media(max-width:1024px) {
+
+  .containerFlexColumn {
+    flex-direction: column;
+    gap: 13px;
+  }
+
+}
+
+@media(max-width:425px){
+
+  .responsiveForm{
+    padding: 5px;
+  }
+}

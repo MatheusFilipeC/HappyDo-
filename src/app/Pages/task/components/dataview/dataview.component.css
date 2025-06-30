@@ -1,0 +1,48 @@
+@media (max-width: 1024px) {
+
+  .removeDiv {
+    display: none !important;
+  }
+
+  .fontResponsiveMedium {
+    font-size: medium !important;
+  }
+
+  .fontResponsiveSmall {
+    font-size: small !important;
+  }
+
+
+}
+
+@media (max-width: 768px) {
+  .paddingResponsive {
+    padding: 10px 5px;
+  }
+
+  .containerList {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .containerFlexRowListContent {
+    flex-direction: row;
+    min-width: 705px;
+    align-items: center;
+  }
+
+  .containerFlexColumnListContent {
+    flex-direction: column;
+  }
+
+  .containerCategory {
+    padding: 0px !important;
+    align-items: center !important;
+  }
+
+  .widthFullContainer{
+    width: 100% !important;
+  }
+
+
+}

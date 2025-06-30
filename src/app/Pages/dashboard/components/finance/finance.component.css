@@ -1,0 +1,19 @@
+.panelsTab{
+  padding: 0px !important;
+}
+
+@media (max-width: 425px) {
+    .divChart{
+      padding: 0px !important;
+    }
+    .divMainFinance{
+      padding: 0px !important;
+    }
+}
+
+@media (max-width: 375px){
+  .panelsTab{
+    padding: 0px;
+  }
+
+}

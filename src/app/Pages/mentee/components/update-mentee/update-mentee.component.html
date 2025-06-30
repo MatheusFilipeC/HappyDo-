@@ -1,0 +1,89 @@
+<p-drawer [(visible)]="visible" [closable]="false" position="right">
+
+  <ng-template #header>
+    <div class="w-full flex flex-col">
+      <p-overlay-badge value="Editar" severity="info" class="inline-flex">
+        <p-chip [label]="nameUser" image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+          alt="Avatar image" />
+      </p-overlay-badge>
+      <p-divider />
+    </div>
+  </ng-template>
+
+  <div class="w-full py-5">
+
+    <form [formGroup]="registerForm" (ngSubmit)="updateMentee()">
+      <div class="mb-4">
+        <app-input-global [control]="registerForm.get('nome')" name="nome" id="nome" label="Nome Completo"
+          [class]="(registerForm.controls['nome'].invalid && (registerForm.controls['nome'].touched || registerForm.controls['nome'].dirty))? classError : class"
+          typeInput="text"></app-input-global>
+
+        <div
+          *ngIf="(registerForm.controls['nome'].invalid && (registerForm.controls['nome'].touched || registerForm.controls['nome'].dirty))">
+
+          <span class="text-xs text-red-600 font-semibold"
+            *ngIf="registerForm.controls['nome'].errors?.['required']">Nome precisa ser preenchido!</span>
+
+          <span class="text-xs text-red-600 font-semibold"
+            *ngIf="registerForm.controls['nome'].errors?.['minlength']">Nome precisa ser maior que 2
+            caracteres!</span>
+        </div>
+      </div>
+
+
+      <div class="mb-4">
+
+        <app-input-global [control]="registerForm.get('email')!" name="email" id="email" label="E-mail"
+          typeInput="email"
+          [class]="(registerForm.controls['email'].invalid && (registerForm.controls['email'].touched || registerForm.controls['email'].dirty))? classError : class"></app-input-global>
+
+        <div
+          *ngIf="(registerForm.controls['email'].invalid && (registerForm.controls['email'].touched || registerForm.controls['email'].dirty))">
+
+          <span class="text-xs text-red-600 font-semibold"
+            *ngIf="registerForm.controls['email'].errors?.['required']">E-mail precisa ser preenchido!</span>
+
+          <span class="text-xs text-red-600 font-semibold"
+            *ngIf="registerForm.controls['email'].errors?.['email']">E-mail com formato inválido</span>
+        </div>
+
+
+      </div>
+
+      <div class="mb-4">
+
+        <app-input-password-global [control]="registerForm.get('senha')!" id="senha" name="senha" placeholder="Senha"
+          [class]="(registerForm.controls['senha'].invalid && (registerForm.controls['senha'].touched || registerForm.controls['senha'].dirty))? classError : class">
+        </app-input-password-global>
+
+        <div
+          *ngIf="(registerForm.controls['senha'].invalid && (registerForm.controls['senha'].touched || registerForm.controls['senha'].dirty))">
+
+          <span class="text-xs text-red-600 font-semibold"
+            *ngIf="registerForm.controls['senha'].errors?.['required']">Senha precisa ser preenchido!</span>
+
+          <span class="text-xs text-red-600 font-semibold"
+            *ngIf="registerForm.controls['senha'].errors?.['minlength']">Senha precisa ser maior que 6
+            caracteres!</span>
+        </div>
+
+      </div>
+
+      <div class="card flex justify-center">
+        <p-select [options]="typeUser" formControlName="role" optionDisabled="disabled" [checkmark]="true" name="role"
+          optionLabel="role" placeholder="Role" class="w-full" />
+      </div>
+
+
+      <div class="flex justify-center content-center py-7">
+        <p-button label="Confirmar" type="submit" [loading]="loading" [rounded]="true" size="large" [raised]="true"
+          class="w-full" styleClass="width-full" [disabled]="registerForm.invalid"></p-button>
+      </div>
+
+    </form>
+  </div>
+
+  <app-toast-global [key]="keyToast">
+  </app-toast-global>
+
+</p-drawer>

@@ -1,0 +1,66 @@
+<div class="card flex justify-center">
+
+  <p-dialog header="Mesada para mentorado" [modal]="true" [closable]="true" [(visible)]="visible"
+    [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="true">
+
+    <p-divider />
+
+    <div class="w-full p-4 removePaddingAndMargin">
+
+      <form [formGroup]="registerForm" (ngSubmit)="onAddPayment()">
+
+        <p-fieldset legend="Valor da Mesada" class="">
+          <div class="m-4 removePaddingAndMargin">
+
+            <p-inputnumber formControlName="valor" name="valor" id="valor" inputId="currency-br" mode="currency"
+              currency="BRL" locale="pt-BR" placeholder="Valor"
+              [class]="(registerForm.controls['valor'].invalid && (registerForm.controls['valor'].touched || registerForm.controls['valor'].dirty))? classError : class" />
+
+            <div
+              *ngIf="(registerForm.controls['valor'].invalid && (registerForm.controls['valor'].touched || registerForm.controls['valor'].dirty))">
+
+              <span class="text-xs text-red-600 font-semibold"
+                *ngIf="registerForm.controls['valor'].errors?.['required']">O valor da mesada precisa ser
+                preenchido!</span>
+            </div>
+          </div>
+
+          <div class="m-4 removePaddingAndMargin">
+
+            <app-input-global [control]="registerForm.get('totalPontosPeriodo')" id="totalPontosPeriodo"
+              label="Pontos possíveis no período" typeInput="number"
+              [class]="(registerForm.controls['totalPontosPeriodo'].invalid && (registerForm.controls['totalPontosPeriodo'].touched || registerForm.controls['totalPontosPeriodo'].dirty))? classError : class"></app-input-global>
+
+            <div
+              *ngIf="(registerForm.controls['totalPontosPeriodo'].invalid && (registerForm.controls['totalPontosPeriodo'].touched || registerForm.controls['totalPontosPeriodo'].dirty))">
+
+              <span class="text-xs text-red-600 font-semibold"
+                *ngIf="registerForm.controls['totalPontosPeriodo'].errors?.['required']">
+                Os pontos possíveis no período precisa ser
+                preenchido!
+              </span>
+
+
+
+            </div>
+          </div>
+
+
+
+
+          <div class="flex justify-center content-center py-7">
+            <p-button label="Confirmar" type="submit" [loading]="loading" [rounded]="true" size="large" [raised]="true"
+              class="w-4/5 widthFullBtn" styleClass="width-full" [disabled]="registerForm.invalid"></p-button>
+          </div>
+        </p-fieldset>
+
+
+      </form>
+
+    </div>
+  </p-dialog>
+
+  <app-toast-global [key]="keyToast">
+  </app-toast-global>
+
+</div>

@@ -1,0 +1,64 @@
+<div class="card flex justify-center">
+
+  <p-dialog header="Adicionar Mentorado" [modal]="true" [closable]="true" [(visible)]="visible"
+    [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="true">
+
+    <div class="w-full p-4">
+      <form [formGroup]="registerForm" (ngSubmit)="onAddNewMentee()">
+
+        <div class="mb-4">
+          <app-input-global [control]="registerForm.get('nome')" name="nome" id="nome" label="Nome Completo"
+            [class]="(registerForm.controls['nome'].invalid && (registerForm.controls['nome'].touched || registerForm.controls['nome'].dirty))? classError : class"
+            typeInput="text"></app-input-global>
+
+          <div
+            *ngIf="(registerForm.controls['nome'].invalid && (registerForm.controls['nome'].touched || registerForm.controls['nome'].dirty))">
+
+            <span class="text-xs text-red-600 font-semibold"
+              *ngIf="registerForm.controls['nome'].errors?.['required']">Nome precisa ser preenchido!</span>
+
+            <span class="text-xs text-red-600 font-semibold"
+              *ngIf="registerForm.controls['nome'].errors?.['minlength']">Nome precisa ser maior que 2
+              caracteres!</span>
+          </div>
+        </div>
+
+
+        <div class="mb-4">
+
+          <app-input-global [control]="registerForm.get('email')!" name="email" id="email" label="E-mail"
+            typeInput="email"
+            [class]="(registerForm.controls['email'].invalid && (registerForm.controls['email'].touched || registerForm.controls['email'].dirty))? classError : class"></app-input-global>
+
+          <div
+            *ngIf="(registerForm.controls['email'].invalid && (registerForm.controls['email'].touched || registerForm.controls['email'].dirty))">
+
+            <span class="text-xs text-red-600 font-semibold"
+              *ngIf="registerForm.controls['email'].errors?.['required']">E-mail precisa ser preenchido!</span>
+
+            <span class="text-xs text-red-600 font-semibold"
+              *ngIf="registerForm.controls['email'].errors?.['email']">E-mail com formato inválido</span>
+          </div>
+
+
+        </div>
+
+        
+        <div class="card flex justify-center">
+          <p-select [options]="typeUser" formControlName="role" optionDisabled="disabled" [checkmark]="true" name="role"
+            optionLabel="role" placeholder="Role" class="w-full" />
+        </div>
+
+
+        <div class="flex justify-center content-center py-7">
+          <p-button label="Confirmar" type="submit" [loading]="loading" [rounded]="true" size="large" [raised]="true"
+            class="w-full" styleClass="width-full" [disabled]="registerForm.invalid"></p-button>
+        </div>
+      </form>
+    </div>
+  </p-dialog>
+
+  <app-toast-global [key]="keyToast">
+  </app-toast-global>
+
+</div>

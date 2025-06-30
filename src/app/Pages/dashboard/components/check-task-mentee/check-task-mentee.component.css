@@ -1,0 +1,25 @@
+@media (max-width: 1140px) {
+
+  .containerContentItem {
+    min-width: 935px;
+  }
+
+  .fontResponsiveMedium {
+    font-size: medium !important;
+  }
+
+  .fontResponsiveSmall {
+    font-size: small !important;
+  }
+
+  .containerBtnsAction {
+    display: flex;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .containerTagFrequence {
+    width: 5rem;
+  }
+}

@@ -1,0 +1,123 @@
+<p-dialog header="Relatório por período" [modal]="true" [(visible)]="visible"
+  [style]="{ width: '41rem', padding: '0px' }" [draggable]="false" [resizable]="false"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+
+  <div #contentExpense class="viewReport border-2 bg-white ">
+
+    <div class="w-full flex justify-between p-4">
+      <span class="text-lg font-semibold">{{userName}}</span>
+      <span class="text-sm font-semibold">Mês: <span>{{month}}</span></span>
+    </div>
+
+    <div class="w-full h-full flex flex-col gap-3">
+
+      <div class="w-full pb-2">
+
+        <div class="w-full border p-2 py-3 rounded-xl">
+          <div class="w-full flex justify-evenly items-center pb-2">
+            <span class=" font-medium italic text-lg">Gasto mensal de <span>{{month}}</span></span>
+          </div>
+          <p-divider class="m-1"></p-divider>
+
+          <div class="w-full p-2">
+            <div class="w-full flex">
+
+              <div class="w-full flex flex-col items-center gap-2 justify-start">
+                <span class="text-2xl font-medium">
+                  {{formatValueCurrencyBR(totalExpense)}}
+                </span>
+              </div>
+
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="w-full pb-2">
+        <div class="w-full border p-2 py-3 rounded-xl">
+          <div class="w-full flex justify-evenly items-center pb-2">
+            <span class=" font-medium  text-lg">
+              Registros <span class="ps-1">de</span> gastos no mês: <span>{{month}}</span>
+            </span>
+          </div>
+          <p-divider class="m-1"></p-divider>
+
+          <div class="p-4 pt-1">
+            <div class="flex items-center justify-center">
+              <span class="text-2xl font-semibold">
+                {{qtExpensesMonth}}
+                <span class="text-base ps-1 italic">em - {{month}}</span>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="w-full pb-2">
+        <div class="w-full border p-2 py-3 rounded-xl">
+          <div class="w-full flex justify-evenly items-center pb-2">
+            <span class=" font-medium  text-lg">
+              Categoria<span class="ps-1">de</span> gasto <span>em <span>{{month}}</span></span>
+            </span>
+          </div>
+
+
+          <div class="w-full">
+            <table class="task-table rounded-lg">
+              <thead>
+                <tr>
+                  <th class="text-white">Categoria</th>
+                  <th class="text-white">Valor R$</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let categoryItem of category">
+                  <td>{{ categoryItem }}</td>
+                  <td>{{ totalValueExpenseCategory?.[categoryItem] | currency:'BRL' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <div *ngIf="userRole === 'USER'" class="w-full pb-2">
+        <div class="w-full border p-2 py-3 rounded-xl">
+          <div class="w-full flex justify-evenly items-center pb-2">
+            <span class=" font-medium  text-2xl">
+              Valor total de <span class="ps-1"> mensadas </span> recebida
+            </span>
+          </div>
+          <p-divider class="mt-1"></p-divider>
+
+
+          <div class="w-full flex justify-center">
+            <span class="font-semibold text-2xl">
+              {{formatValueCurrencyBR(valueTotalPaymente)}}
+            </span>
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <ng-template #footer>
+    <div class=" w-full p-2 flex justify-end">
+      <p-button icon="pi pi-print" [rounded]="true" pTooltip="Exportar para PDF" [text]="true" [raised]="true"
+        (onClick)="reportPDFTask()" />
+    </div>
+  </ng-template>
+</p-dialog>

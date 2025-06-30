@@ -1,0 +1,33 @@
+@media (max-width: 1140px){
+  .containerMain{
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px){
+  .removeDiv{
+    display: none !important;
+  }
+
+  
+  .fontResponsiveMedium {
+    font-size: medium !important;
+  }
+
+  .fontResponsiveSmall {
+    font-size: small !important;
+  }
+
+  .containerContent{
+    min-width: 678px;
+  }
+
+  .containerFlexColumn{
+    flex-direction: column;
+  }
+  .widthFullBtn{
+    width: 100% !important;
+  }
+
+}
+

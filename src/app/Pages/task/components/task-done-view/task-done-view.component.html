@@ -1,0 +1,114 @@
+<p-dataview #dv [value]="tasksDone" [sortField]="sortField" [sortOrder]="sortOrder">
+  <ng-template #header>
+    <div class="flex flex-col md:flex-row md:justify-between">
+      <p-select [options]="sortOptions" placeholder="Frequencia" (onChange)="onSortChangeTaskDone($event)"
+        styleClass="mb-2 md:mb-0" />
+    </div>
+  </ng-template>
+
+  <ng-template #list let-items>
+
+    <p-scrollpanel *ngIf="this.tasksDone.length != 0" [style]="{ width: '100%', height: '385px', overflow: 'auto' }">
+
+      <div *ngIf="this.tasksDone.length > 0" class="grid grid-cols-12 gap-4 grid-nogutter containerList">
+
+        <div class="col-span-12" *ngFor="let item of items; let first = first">
+
+          <div class="">
+
+            <div class="flex flex-col sm:flex-row sm:items-center p-6 gap-4 paddingResponsive"
+              [ngClass]="{ 'border-t border-surface-200 dark:border-surface-700': !first }">
+
+              <div class="md:w-40 relative removeDiv">
+                <i class="block xl:block mx-auto rounded-border w-full pi pi-check text-5xl text-green-300"
+                  alt="Tarefas"></i>
+                <p-tag [value]="item.frequencia" [severity]="(item)" class="absolute" [style.left.px]="55"
+                  [style.top.px]="-12" />
+              </div>
+
+              <div
+                class="flex flex-col md:flex-row justify-between md:items-start flex-1 gap-6 containerFlexRowListContent">
+
+                <div
+                  class="flex flex-row md:flex-col justify-between items-start gap-2 w-full containerFlexColumnListContent">
+                  <div>
+                    <span class="font-medium text-secondary text-sm">{{ item.titulo }}</span>
+                    <div class="text-lg font-medium text-surface-900 dark:text-surface-0 mt-2 fontResponsiveMedium">
+                      {{
+                      item.descricao }}
+                    </div>
+                  </div>
+
+                  <div class="bg-surface-100 dark:bg-surface-700 p-1" style="border-radius: 30px">
+                    <div class="bg-surface-0 dark:bg-surface-900 flex items-center gap-2 justify-center py-1 px-2"
+                      style="border-radius: 30px; box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 2px 0px rgba(0, 0, 0, 0.06)">
+                      <span
+                        class="text-surface-900 dark:text-surface-0 font-medium text-sm italic fontResponsiveSmall">{{
+                        item.dataInicio + ' até ' + item.dataFim}}</span>
+                      <i class="pi pi-calendar-minus text-blue-500"></i>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="flex flex-col items-center justify-evenly gap-2 w-full">
+
+                  <div class="flex flex-col items-center">
+                    <span class="font-semibold text-lg italic">Tarefa concluída</span>
+                  </div>
+                  <div *ngIf="userRole == 'ADMIN'" class="flex gap-5">
+
+                    <p-button pTooltip="Excluir tarefa" icon="pi pi-trash" (onClick)="deleteTask(item)" [rounded]="true"
+                      severity="danger" />
+
+
+                  </div>
+                </div>
+
+
+                <div class="flex flex-col md:items-end gap-1 pe-2 w-full h-full containerCategory">
+                  <p-tag severity="secondary" value="CATEGORIA" [rounded]="true" class="fontResponsiveSmall" />
+                  <span class="text-xl font-medium italic text-surface-900 dark:text-surface-0 fontResponsiveMedium">
+                    {{item.categoria}}
+                  </span>
+                </div>
+
+
+
+              </div>
+
+
+
+            </div>
+
+
+          </div>
+
+
+
+        </div>
+
+
+
+
+      </div>
+
+    </p-scrollpanel>
+
+  </ng-template>
+
+
+  <ng-template #emptymessage>
+    <div class="w-full flex flex-col items-center justify-center p-4">
+      <i class="pi pi-bolt text-blue-400 text-4xl"></i>
+      <h2 class="text-2xl font-semibold italic">Sem tarefas no momento</h2>
+    </div>
+  </ng-template>
+
+</p-dataview>
+
+<p-toast
+  [breakpoints]="{'768px': {width: '60%', right: '0', left: '0'}, '425px': {width: '90%', right: '0', left: '0'} }"
+  [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'1000ms'" [hideTransitionOptions]="'1000ms'"
+  [showTransformOptions]="'translateX(100%)'" />
+<p-confirmdialog />

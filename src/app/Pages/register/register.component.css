@@ -1,0 +1,8 @@
+/* Estilos personalizados para registro */
+h2 {
+  font-family: 'Poppins', sans-serif;
+}
+
+p-inputtext, p-password {
+  margin-top: 0.5rem;
+}

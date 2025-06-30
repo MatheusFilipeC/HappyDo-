@@ -1,0 +1,52 @@
+<div class="flex justify-center items-center h-screen bg-gray-100">
+  <div class="card w-full max-w-md p-6 shadow-lg rounded-lg bg-white">
+    <h2 class="text-3xl font-bold text-center text-blue-600 mb-6">Redefinir Senha</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onUpdatePassword()" class="space-y-4">
+   
+      <div>
+        <app-input-global [control]="registerForm.get('email')" id="email" label="E-mail" typeInput="email"
+          [class]="(registerForm.controls['email'].invalid && (registerForm.controls['email'].touched || registerForm.controls['email'].dirty))? classError : class"></app-input-global>
+
+        <div
+          *ngIf="(registerForm.controls['email'].invalid && (registerForm.controls['email'].touched || registerForm.controls['email'].dirty))">
+
+          <span class="text-xs text-red-600 font-semibold"
+            *ngIf="registerForm.controls['email'].errors?.['required']">E-mail precisa ser preenchido!</span>
+
+          <span class="text-xs text-red-600 font-semibold"
+            *ngIf="registerForm.controls['email'].errors?.['email']">E-mail com formato inválido</span>
+        </div>
+      </div>
+
+      <div class="w-full">
+        <app-input-password-global [control]="registerForm.get('novaSenha')!" 
+          placeholder="Nova Senha" id="novaSenha"
+          name="novaSenha"
+          [class]="(registerForm.controls['novaSenha'].invalid && (registerForm.controls['novaSenha'].touched || registerForm.controls['novaSenha'].dirty))? classError : class">
+        </app-input-password-global>
+
+        <div
+          *ngIf="(registerForm.controls['novaSenha'].invalid && (registerForm.controls['novaSenha'].touched || registerForm.controls['novaSenha'].dirty))">
+
+          <span class="text-xs text-red-600 font-semibold"
+            *ngIf="registerForm.controls['novaSenha'].errors?.['required']">Senha precisa ser preenchido!</span>
+
+          <span class="text-xs text-red-600 font-semibold"
+            *ngIf="registerForm.controls['novaSenha'].errors?.['minlength']">Senha precisa ser maior que 6
+            caracteres!</span>
+        </div>
+
+      </div>
+
+
+      <div class="pt-4">
+        <p-button label="Confirmar" type="submit" [loading]="loading" [rounded]="true" size="large" [raised]="true"
+          class="w-full" styleClass="width-full" [disabled]="registerForm.invalid"></p-button>
+      </div>
+
+      <app-toast-global [key]="keyToast">
+      </app-toast-global>
+    </form>
+  </div>
+</div>

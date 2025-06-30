@@ -1,0 +1,124 @@
+<p-dialog header="Relatório por período" [modal]="true" [(visible)]="visible"
+  [style]="{ width: '41rem', padding: '0px' }" [draggable]="false" [resizable]="false"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+  <div #contentMonth class="viewReport border-2 bg-white ">
+    <div class="w-full flex justify-between p-4">
+      <span class="text-lg font-semibold">{{userName}}</span>
+      <span class="text-sm italic font-medium">De {{dateStart}} até {{dateEnd}}</span>
+    </div>
+    <p-divider class=""></p-divider>
+
+    <div class="w-full h-full flex flex-col gap-3 w-">
+
+      <div class="w-full pb-2">
+
+        <div class="w-full border p-2 py-3 rounded-xl">
+          <div class="w-full flex justify-evenly items-center pb-2">
+            <span class=" font-medium italic text-lg">Aproveitamento neste período</span>
+          </div>
+          <p-divider class="m-1"></p-divider>
+
+          <div class="w-full p-2">
+            <div class="w-full flex">
+
+              <div class="w-full flex flex-col items-center gap-2 justify-start">
+                <span class="font-normal text-base">Tarefas <span class="ps-1">concluídas</span></span>
+                <span class="font-semibold text-2xl">{{taskDone}}</span>
+              </div>
+
+              <div class="w-full flex flex-col items-center gap-2 justify-start">
+                <h2 class="italic font-normal text-base">Aproveitamento</h2>
+                <span class="text-2xl font-semibold">
+                  {{ taskPerformance | number:'1.0-0' }}
+                  <b class="text-base">%período</b>
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="w-full pb-2">
+        <div class="w-full border p-2 py-3 rounded-xl">
+          <div class="w-full flex justify-evenly items-center pb-2">
+            <span class=" font-medium  text-lg">
+              Tarefas <span class="ps-1">em</span> andamento
+            </span>
+          </div>
+          <p-divider class="m-1"></p-divider>
+
+          <div class="p-4 pt-1">
+            <div class="flex items-center justify-center">
+              <span class="text-2xl font-semibold">
+                {{taskMissing}}
+                <span class="text-base ps-1 italic">tarefas</span>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="w-full pb-2">
+        <div class="w-full border p-2 py-3 rounded-xl">
+          <div class="w-full flex justify-evenly items-center pb-2">
+            <span class=" font-medium  text-lg">
+              Quantidade<span class="ps-1">de</span> tarefas <span>por frequência</span>
+            </span>
+          </div>
+
+
+          <div class="w-full">
+            <table class="task-table rounded-lg">
+              <thead>
+                <tr>
+                  <th class="text-white">Frequência</th>
+                  <th class="text-white">Quantidade de Tarefas</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let freq of frequencias">
+                  <td>{{ freq }}</td>
+                  <td>{{ listFrequenceTask?.[freq] }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <div class="w-full pb-2">
+        <div class="w-full border p-2 py-3 rounded-xl">
+          <div class="w-full flex justify-evenly items-center pb-2">
+            <span class=" font-medium  text-lg">
+              Total<span class="ps-1">de</span> tarefas <span> neste período</span>
+            </span>
+          </div>
+
+          <div class="w-full flex justify-center">
+            <span class="font-semibold text-2xl">
+              {{totalTask}}
+              <span class="text-base italic font-medium">Tarefas</span>
+            </span>
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </div>
+  </div>
+
+  <ng-template #footer>
+    <div class=" w-full p-2 flex justify-end">
+      <p-button icon="pi pi-print" [rounded]="true" pTooltip="Exportar para PDF" [text]="true" [raised]="true"
+        (onClick)="reportPDFTask()" />
+    </div>
+  </ng-template>
+</p-dialog>

@@ -1,0 +1,145 @@
+<div class="menu-mobile">
+  <p-drawer #drawerRef [(visible)]="visible">
+    <ng-template #headless>
+      <div class="flex flex-col h-full">
+        <div class="flex items-center justify-between px-6 pt-4 shrink-0">
+          <span class="inline-flex items-center gap-2 pb-1">
+            <span class="font-semibold text-2xl text-primary">Happy Do</span>
+          </span>
+          <span>
+            <p-button type="button" (click)="closeCallback($event)" icon="pi pi-times" rounded="true" outlined="true"
+              styleClass="h-8 w-8"></p-button>
+          </span>
+        </div>
+        <div class="overflow-y-auto">
+          <ul class="list-none m-0">
+            <li>
+              <a href="/dashboard">
+                <div pRipple pStyleClass="@next" enterFromClass="hidden" enterActiveClass="animate-slidedown"
+                  leaveToClass="hidden" leaveActiveClass="animate-slideup"
+                  class="p-4 flex items-center justify-start text-surface-600 dark:text-surface-200 cursor-pointer p-ripple">
+
+                  <i class="pi pi-home mr-2"></i>
+                  <span class="font-medium">HOME</span>
+
+                </div>
+              </a>
+
+            </li>
+          </ul>
+
+          <ul class="list-none m-0">
+            <li>
+              <div pRipple pStyleClass="@next" enterFromClass="hidden" enterActiveClass="animate-slidedown"
+                leaveToClass="hidden" leaveActiveClass="animate-slideup"
+                class="p-4 flex items-center justify-between text-surface-600 dark:text-surface-200 cursor-pointer p-ripple">
+                <span class="font-medium">TAREFAS</span>
+                <i class="pi pi-chevron-down"></i>
+              </div>
+
+              <ul class="list-none p-0 m-0 overflow-hidden">
+                <li>
+                  <a pRipple href="/tarefas"
+                    class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
+                    <i class="pi pi-list mr-2"></i>
+                    <span class="font-medium">Tarefas do Dia</span>
+                  </a>
+                </li>
+                <li>
+                  <a pRipple href="/gerenciar-tarefas"
+                    class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
+                    <i class="pi pi-file-pdf mr-2"></i>
+                    <span class="font-medium">Gestão de tarefas</span>
+                  </a>
+                </li>
+
+              </ul>
+
+
+            </li>
+          </ul>
+
+          <ul class="list-none m-0">
+            <li>
+              <div pRipple pStyleClass="@next" enterFromClass="hidden" enterActiveClass="animate-slidedown"
+                leaveToClass="hidden" leaveActiveClass="animate-slideup"
+                class="p-4 flex items-center justify-between text-surface-600 dark:text-surface-200 cursor-pointer p-ripple">
+                <span class="font-medium">FINANCEIRO</span>
+                <i class="pi pi-chevron-down"></i>
+              </div>
+
+              <ul class="list-none p-0 m-0 overflow-hidden">
+                <li>
+                  <a pRipple href="/gastos"
+                    class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
+                    <i class="pi pi-money-bill mr-2"></i>
+                    <span class="font-medium">Gastos mensais</span>
+                  </a>
+                </li>
+                <li>
+                  <a pRipple href="/relatorio-gastos"
+                    class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
+                    <i class="pi pi-file-pdf mr-2"></i>
+                    <span class="font-medium">Relatório de gastos</span>
+                  </a>
+                </li>
+
+              </ul>
+
+
+            </li>
+          </ul>
+
+          <ul *ngIf="userRole === 'ADMIN'" class="list-none m-0">
+            <li>
+              <div pRipple pStyleClass="@next" enterFromClass="hidden" enterActiveClass="animate-slidedown"
+                leaveToClass="hidden" leaveActiveClass="animate-slideup"
+                class="p-4 flex items-center justify-between text-surface-600 dark:text-surface-200 cursor-pointer p-ripple">
+                <span class="font-medium">MENTORIA</span>
+                <i class="pi pi-chevron-down"></i>
+              </div>
+
+              <ul class="list-none p-0 m-0 overflow-hidden">
+                <li>
+                  <a pRipple href="/mentoria"
+                    class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
+                    <i class="pi pi-address-book mr-2"></i>
+                    <span class="font-medium">Mentorados</span>
+                  </a>
+                </li>
+                <li>
+                  <a pRipple href="/tarefas-mentorados"
+                    class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
+                    <i class="pi pi-list-check mr-2"></i>
+                    <span class="font-medium">Cadastro de tarefas mentorados</span>
+                  </a>
+                </li>
+                <li>
+                  <a pRipple href="/lista-tarefas-mentorados"
+                    class="flex items-center cursor-pointer p-4 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
+                    <i class="pi pi-id-card mr-2"></i>
+                    <span class="font-medium">Tarefas dos mentorados</span>
+                  </a>
+                </li>
+
+              </ul>
+
+
+            </li>
+          </ul>
+
+        </div>
+        <div class="mt-auto">
+          <hr class="mb-4 mx-4 border-t border-0 border-surface" />
+          <a pRipple
+            class="m-4 flex items-center cursor-pointer p-4 gap-2 rounded-border text-surface-700 dark:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-700 duration-150 transition-colors p-ripple">
+            <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
+            <span class="font-bold">{{userName}}</span>
+          </a>
+        </div>
+      </div>
+    </ng-template>
+  </p-drawer>
+
+  <p-button (click)="visible = true" icon="pi pi-bars" variant="outlined" [raised]="true" severity="info" />
+</div>

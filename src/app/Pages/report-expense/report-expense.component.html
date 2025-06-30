@@ -1,0 +1,180 @@
+<div class="w-full bg-slate-100 min-h-dvh">
+  <app-menu></app-menu>
+
+
+  <div class="w-full flex justify-center p-2 gap-2 containerMain">
+
+    <div class="w-full">
+      <p-card header="Gestão das finanças">
+
+        <p-orderlist [value]="expenses" [responsive]="true" filterBy="titulo" filterPlaceholder="Titulo"
+          scrollHeight="26rem">
+
+          <ng-template let-option let-selected="selected" #item>
+
+
+            <div class="flex flex-wrap p-1 items-center gap-4 w-full containerContent">
+
+              <div class="removeDiv">
+                <i class="block xl:block mx-auto rounded-border w-full pi pi-check-square text-2xl text-green-800"
+                  alt="Tarefas"></i>
+
+              </div>
+
+
+              <div class="flex-1 flex flex-col">
+                <span class="font-medium text-sm fontResponsiveSmall">{{ option.titulo }}</span>
+                <span [ngClass]="{
+                          'text-sm': true,
+                          'text-surface-500': !selected,
+                          'dark:text-surface-400': !selected,
+                          'text-inherit': selected,
+                      }">{{ option.descricao }}</span>
+              </div>
+
+              <div class="flex flex-col">
+                <span class="sm:ml-8 fontResponsiveSmall">Categoria: <b class="italic">{{option.categoria}}</b></span>
+                <span class="text-base italic font-medium text-right sm:ml-8 fontResponsiveSmall">
+                  {{formatValueCurrencyBR(option.valor) }}
+                </span>
+              </div>
+
+            </div>
+
+
+          </ng-template>
+
+
+        </p-orderlist>
+
+
+      </p-card>
+    </div>
+
+    <div class="w-full">
+      <p-card header="Baixar relatório mensal">
+
+        <div class="w-full flex justify-center py-4">
+          <i class="pi pi-file-pdf
+          font-bold text-7xl text-blue-700 "></i>
+        </div>
+
+
+
+
+        <div class="card">
+          <p-tabs value="0">
+            <p-tablist>
+              <p-tab value="0">Mensal</p-tab>
+              <p-tab value="1">Anual</p-tab>
+            </p-tablist>
+            <p-tabpanels>
+              <p-tabpanel value="0">
+                <form [formGroup]="registerForm" class="flex flex-col justify-center" (ngSubmit)="onMonth()">
+                  <div class="w-full py-5 flex items-baseline justify-center">
+                    <div class="w-1/3 text-center">
+                      <h2 class="font-semibold text-base italic">
+                        Mensalmente
+                      </h2>
+                    </div>
+
+                    <div class="w-full">
+                      <p-select [options]="chooseMonth" formControlName="mes" optionDisabled="disabled"
+                        [checkmark]="true" name="mes" optionLabel="mes" placeholder="Mês"
+                        [class]="(registerForm.controls['mes'].invalid && (registerForm.controls['mes'].touched || registerForm.controls['mes'].dirty))? classError : class" />
+
+                      <div
+                        *ngIf="(registerForm.controls['mes'].invalid && (registerForm.controls['mes'].touched || registerForm.controls['mes'].dirty))">
+
+                        <span class="text-xs text-red-600 font-semibold"
+                          *ngIf="registerForm.controls['mes'].errors?.['required']">Mês precisa ser preenchido!</span>
+
+
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <p-divider />
+
+                  <div class="w-full py-5 flex justify-center">
+                    <p-button label="Baixar relatório mensal" type="submit" [disabled]="registerForm.invalid"
+                      class="w-3/4 widthFullBtn" [rounded]="true" styleClass="width-full" [raised]="true"
+                      icon="pi pi-download" />
+                  </div>
+
+
+                </form>
+              </p-tabpanel>
+
+
+              <p-tabpanel value="1">
+                <form [formGroup]="registerFormYear" class="flex flex-col justify-center" (ngSubmit)="onYear()">
+                  <div class="w-full py-5 flex items-baseline justify-center">
+
+                    <div class="w-1/3 text-center">
+                      <h2 class="font-semibold text-base italic">
+                        Anualmente
+                      </h2>
+                    </div>
+
+
+                    <div class="w-full">
+                      <p-select [options]="chooseYear" formControlName="ano" optionDisabled="disabled"
+                        [checkmark]="true" name="ano" optionLabel="ano" placeholder="Ano"
+                        [class]="(registerFormYear.controls['ano'].invalid && (registerFormYear.controls['ano'].touched || registerFormYear.controls['ano'].dirty))? classError : class" />
+
+                      <div
+                        *ngIf="(registerFormYear.controls['ano'].invalid && (registerFormYear.controls['ano'].touched || registerFormYear.controls['ano'].dirty))">
+
+                        <span class="text-xs text-red-600 font-semibold"
+                          *ngIf="registerFormYear.controls['ano'].errors?.['required']">Ano precisa ser
+                          preenchido!</span>
+
+                      </div>
+
+                    </div>
+
+
+                  </div>
+
+                  <p-divider />
+
+                  <div class="w-full py-5 flex justify-center">
+                    <p-button label="Baixar relatório anual" type="submit" [disabled]="registerFormYear.invalid"
+                      class="w-3/4 widthFullBtn" [rounded]="true" styleClass="width-full" [raised]="true"
+                      icon="pi pi-download" />
+                  </div>
+
+                </form>
+              </p-tabpanel>
+
+            </p-tabpanels>
+          </p-tabs>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </p-card>
+    </div>
+
+  </div>
+
+  <div class="p-3">
+    <app-report-month-expense [month]="monthSelected"></app-report-month-expense>
+  </div>
+  <div class="p-3">
+    <app-report-year [year]="yearSelected"></app-report-year>
+  </div>
+
+</div>

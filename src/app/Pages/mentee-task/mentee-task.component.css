@@ -1,0 +1,21 @@
+@media(max-width: 768px){
+
+  .containerFlexColumn{
+    flex-direction: column;
+    gap: 13px;
+  }
+
+  .widthBtnFull{
+    width: 100%;
+  }
+}
+
+@media(max-width: 425px){
+  .removePadding{
+    padding: 0px;
+  }
+
+  .paddingSelect{
+    padding: 15px 0px
+  }
+}

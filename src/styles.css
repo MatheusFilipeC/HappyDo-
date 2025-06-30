@@ -1,0 +1,48 @@
+/* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+@layer tailwind-base, primeng, tailwind-utilities;
+
+@layer tailwind-base {
+@tailwind base;
+}
+
+@layer tailwind-utilities {
+@tailwind components;
+@tailwind utilities;
+}
+
+
+.width-full{
+  width: 100%;
+}
+
+.p-listbox-option{
+  overflow: auto;
+}
+
+.p-orderlist-list-container{
+  width: 100% !important;
+}
+.p-orderlist-controls{
+  display: none !important;
+}
+
+.p-scrollpanel-content-container{
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+
+.tag-manager-list{
+  padding: 1px !important;
+  font-size: x-small;
+}
+
+.p-password-input{
+  width: 100% !important;
+}
+
+@media (max-width: 960px) {
+  .p-menubar-mobile .p-menubar-button {
+    display: none !important;
+  }
+}

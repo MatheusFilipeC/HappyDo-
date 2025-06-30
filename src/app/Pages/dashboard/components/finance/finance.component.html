@@ -1,0 +1,164 @@
+<div class="w-full py-3 px-1 divMainFinance">
+
+  <div class="w-full flex flex-wrap gap-3">
+
+    <div class="w-full flex-1">
+      <p-card class="w-full shadow-lg rounded-sm h-full">
+        <div class="w-full flex justify-end">
+          <p-button icon="pi pi-arrow-right" iconPos="right" label="Relatório de gastos" aria-label="Save" [link]="true"
+            (onClick)="redirectURL('/relatorio-gastos')" />
+        </div>
+        <div class="w-full p-3 divChart">
+
+
+
+          <p-chart type="bar" [data]="chartData" [options]="chartOptions" width="450" height="350">
+          </p-chart>
+
+        </div>
+      </p-card>
+    </div>
+
+    <div class="w-full flex-1">
+      <p-card class="w-full shadow-lg rounded-sm h-full" [style]="{height: '100%'}">
+        <div class="card h-full">
+          <div class="w-full flex justify-end">
+            <p-button icon="pi pi-arrow-right" iconPos="right" label="Gastos" aria-label="Save" [link]="true"
+              (onClick)="redirectURL('/gastos')" />
+          </div>
+          <p-tabs value="0" scrollable class="w-full h-full">
+            <p-tablist>
+              <ng-template #previcon>
+                <i class="pi pi-minus"></i>
+              </ng-template>
+              <p-tab value="0">
+                <i class="pi pi-wallet"></i>
+                <span class="font-bold whitespace-nowrap">Gastos total</span>
+              </p-tab>
+              <p-tab value="1">
+                <i class="pi pi-chart-bar"></i>
+                <span class="font-bold whitespace-nowrap">Essenciais</span>
+              </p-tab>
+              <p-tab value="2">
+                <i class="pi pi-money-bill"></i>
+                <span class="font-bold whitespace-nowrap">Não essenciais</span>
+              </p-tab>
+              <ng-template #nexticon>
+                <i class="pi pi-plus"></i>
+              </ng-template>
+            </p-tablist>
+
+            <p-tabpanels class="panelsTab">
+
+              <p-tabpanel value="0">
+                <div class="w-full pt-5">
+                  <p-card class="w-full shadow-lg rounded-sm" [style]="{background: 'lightgreen',}">
+                    <div class="w-full flex items-center justify-between">
+                      <h1 class="font-semibold text-2xl text-white whitespace-nowrap">Seus total de gastos</h1>
+                      <i class="pi pi-dollar text-white text-4xl"></i>
+                    </div>
+
+                    <div class="w-full flex justify-center p-3">
+                      <span class="text-4xl text-white italic font-semibold whitespace-nowrap">
+                        {{formatValueCurrencyBR(valueExpenseTotal)}}
+                      </span>
+                    </div>
+
+                  </p-card>
+                </div>
+              </p-tabpanel>
+
+              <p-tabpanel value="1">
+                <div>
+                  <div class="card">
+                    <p-table [value]="listEssentialExpenses" [autoLayout]="true" scrollHeight="220px">
+                      <ng-template #caption>
+                        <div class="flex items-center justify-between">
+                          <span class="text-xl font-bold whitespace-nowrap">Gastos essenciais</span>
+                          <p-button icon="pi pi-refresh" (onClick)="reloadTableData()" [loading]="loading" rounded
+                            raised />
+                        </div>
+                      </ng-template>
+
+                      <ng-template #header>
+                        <tr>
+                          <th class="text-sm whitespace-nowrap">ID</th>
+                          <th class="text-sm whitespace-nowrap">Produto</th>
+                          <th class="text-sm whitespace-nowrap">Categoria</th>
+                          <th class="text-sm whitespace-nowrap">Registro do gasto</th>
+                          <th class="text-sm whitespace-nowrap">Preço</th>
+                        </tr>
+                      </ng-template>
+                      <ng-template #body let-product>
+                        <tr>
+                          <td class="text-sm p-2 whitespace-nowrap">{{ product.id }}</td>
+                          <td class="text-sm p-2 whitespace-nowrap">{{ product.produto }}</td>
+                          <td class="text-sm p-2 whitespace-nowrap">{{ product.categoria }}</td>
+                          <td class="text-sm p-2 whitespace-nowrap">{{ formatDate(product.dataGasto)}}</td>
+                          <td class="text-sm p-2 whitespace-nowrap">{{ formatValueCurrencyBR(product.valor)}}</td>
+                        </tr>
+                      </ng-template>
+
+                      <ng-template #emptymessage>
+                        <div class="w-full flex justify-center p-4">
+                          <h2 class="text-lg font-semibold italic">Sem registro de dados na tabela</h2>
+                        </div>
+                      </ng-template>
+
+                    </p-table>
+                  </div>
+                </div>
+              </p-tabpanel>
+
+              <p-tabpanel value="2">
+                <div class="card">
+                  <p-table [value]="listEssentialExpensesNo" [autoLayout]="true" scrollHeight="220px">
+                    <ng-template #caption>
+                      <div class="flex items-center justify-between">
+                        <span class="text-xl font-bold whitespace-nowrap">Gastos não essenciais</span>
+                        <p-button icon="pi pi-refresh" (onClick)="reloadTableData()" [loading]="loading" rounded
+                          raised />
+                      </div>
+                    </ng-template>
+
+                    <ng-template #header>
+                      <tr>
+                        <th class="text-sm whitespace-nowrap">ID</th>
+                        <th class="text-sm whitespace-nowrap">Produto</th>
+                        <th class="text-sm whitespace-nowrap">Categoria</th>
+                        <th class="text-sm whitespace-nowrap">Registro do gasto</th>
+                        <th class="text-sm whitespace-nowrap">Preço</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template #body let-product>
+                      <tr>
+                        <td class="text-sm p-2 whitespace-nowrap">{{ product.id }}</td>
+                        <td class="text-sm p-2 whitespace-nowrap">{{ product.produto }}</td>
+                        <td class="text-sm p-2 whitespace-nowrap">{{ product.categoria }}</td>
+                        <td class="text-sm p-2 whitespace-nowrap">{{ formatDate(product.dataGasto)}}</td>
+                        <td class="text-sm p-2 whitespace-nowrap">{{ formatValueCurrencyBR(product.valor)}}</td>
+                      </tr>
+                    </ng-template>
+
+                    <ng-template #emptymessage>
+                      <div class="w-full flex justify-center p-4">
+                        <h2 class="text-lg font-semibold italic">Sem registro de dados na tabela</h2>
+                      </div>
+                    </ng-template>
+
+                  </p-table>
+                </div>
+              </p-tabpanel>
+            </p-tabpanels>
+          </p-tabs>
+
+
+        </div>
+
+      </p-card>
+
+    </div>
+
+  </div>
+
+</div>

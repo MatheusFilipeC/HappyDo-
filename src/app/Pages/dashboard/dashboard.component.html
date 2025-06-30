@@ -1,0 +1,215 @@
+<div class="w-full bg-slate-100 min-h-dvh">
+  <app-menu></app-menu>
+
+  <div class="w-full py-2">
+    <p-card class="shadow-lg rounded-sm">
+      <div class="flex items-center gap-3">
+        <h1 class="font-semibold text-2xl"> Olá {{userName }}, seja muito bem-vindo(a)</h1>
+        <i class="pi pi-users" style="font-size: 2rem; color: rgb(0, 117, 252);"></i>
+      </div>
+    </p-card>
+  </div>
+
+  <div class="w-full flex flex-wrap gap-2">
+    <p-card class="shadow-lg rounded flex-1 basis-[321px]"
+      [style]="{borderLeft:'4px solid rgb(0, 117, 252)', height: '100%'}">
+
+      <div class="w-full flex justify-end">
+        <p-button icon="pi pi-arrow-right" iconPos="right" label="Gestão de tarefas" aria-label="Save" [link]="true"
+          (onClick)="redirectURL('/gerenciar-tarefas')" />
+      </div>
+
+      <div class="w-full flex flex-col" *ngIf="taskDone !== 0 || taskMissing !== 0">
+        <p-chart type="doughnut" [data]="chartData" [options]="chartOptions" width="200" height="200" class="chartPie">
+        </p-chart>
+        <span class="m-2 text-center font-medium italic">Overview das tarefas</span>
+      </div>
+
+      <div *ngIf="taskDone === 0 && taskMissing === 0"
+        class="w-full flex items-center justify-center flex-col gap-4 pt-4">
+        <i class="pi pi-table text-7xl text-teal-400"></i>
+        <h2 class="text-lg font-semibold italic text-slate-400">No momento você não possui tarefas</h2>
+      </div>
+
+
+    </p-card>
+
+    <p-card class="shadow-lg rounded flex-1 basis-[321px]"
+      [style]="{borderLeft:'4px solid rgb(0, 117, 252)', height: '100%',}">
+
+      <div class="w-full flex justify-end">
+        <p-button icon="pi pi-arrow-right" iconPos="right" label="Gestão de tarefas" aria-label="Save" [link]="true"
+          (onClick)="redirectURL('/gerenciar-tarefas')" />
+      </div>
+
+
+      <div class="w-full flex flex-col h-full gap-10">
+
+        <div class="p-4 pt-3 flex items-center gap-3">
+          <p-avatar icon="pi pi-percentage" size="large" shape="circle" class="bg-teal-400 text-zinc-50" />
+          <h2 class="font-semibold text-start text-2xl">Aproveitamento</h2>
+        </div>
+
+        <div class="w-full flex h-24">
+
+          <div class="w-full flex flex-col items-center gap-2 justify-start">
+            <h2 class="italic font-normal text-lg">Tarefas feitas</h2>
+            <span class="font-semibold text-4xl">{{taskDone}}</span>
+          </div>
+
+          <div>
+            <p-divider layout="vertical" class="p-0 m-0">
+              <span class="font-bold">%</span>
+            </p-divider>
+          </div>
+
+          <div class="w-full flex flex-col items-center gap-2 justify-start">
+            <h2 class="italic font-normal text-lg">Aproveitamento</h2>
+            <span class="text-4xl font-semibold">
+              {{ taskPerformance | number:'1.0-0' }}
+              <b class="text-base">%mês</b>
+            </span>
+          </div>
+        </div>
+
+
+      </div>
+
+
+    </p-card>
+
+    <p-card class="shadow-lg flex-1 basis-[321px]" [style]="{borderLeft:'4px solid rgb(0, 117, 252)', height: '100%'}">
+
+      <div class="flex mb-1 gap-2 justify-end">
+
+        <p-selectbutton [options]="stateOptions" [(ngModel)]="value" optionLabel="name" optionValue="value" size="small"
+          [disabled]="checkBtnToggle" aria-labelledby="basic" />
+
+      </div>
+      <p-tabs class="p-0" [value]="value">
+
+        <p-tabpanels class="p-0">
+          <p-tabpanel [value]="0">
+
+            <div *ngIf="tasksDayUser.length > 0" class="w-full">
+              <p-orderlist [value]="tasksDayUser" dataKey="id" breakpoint="575px" scrollHeight="12rem">
+                <ng-template let-option let-selected="selected" #item>
+
+                  <div (click)="signalTask(option)"
+                    class="flex flex-wrap justify-between p-1 items-center gap-4 w-full">
+
+                    <div class="flex flex-col">
+                      <span class="font-medium text-sm">{{ option.titulo }}</span>
+                      <span>{{ option.descricao }}</span>
+                    </div>
+
+                    <div class="flex flex-col text-end">
+                      <span class="font-bold sm:ml-8">{{ option.frequencia }}</span>
+                      <span
+                        class="text-surface-900 dark:text-surface-0 font-medium text-xs italic fontResponsiveSmall">{{
+                        option.dataInicio + ' até ' + option.dataFim}}
+                      </span>
+
+                    </div>
+                  </div>
+                </ng-template>
+              </p-orderlist>
+
+
+            </div>
+
+            <div class="w-full h-full p-4" *ngIf="checkAllSignalTaskUser">
+              <span class=" font-medium text-base py-2">
+                Todas as tarefas foram sinalizada, aguardar aprovação do mentor!
+              </span>
+            </div>
+
+
+
+
+
+
+            <div *ngIf="msgTask" class="w-full flex items-center justify-center pt-4">
+              <span class="text-lg font-medium">
+                {{msgTask}}
+                <i class="pi pi-bolt text-3xl text-blue-500"></i>
+              </span>
+            </div>
+
+          </p-tabpanel>
+
+          <p-tabpanel [value]="1">
+            <div class="w-full h-full flex justify-center pt-5">
+              <p-button (click)="showDialogTaskMentee()" label="Validar tarefas dos mentorados" icon="pi pi-home"
+                severity="info" [rounded]="true" [raised]="true" />
+              <app-check-task-mentee [visible]="false"></app-check-task-mentee>
+            </div>
+          </p-tabpanel>
+
+        </p-tabpanels>
+      </p-tabs>
+
+    </p-card>
+
+
+  </div>
+
+  <p-divider />
+
+  <!-- PAINEL DE DESEMPENHO DO USUARIO MENTORADO -->
+  <div *ngIf="userRole === 'USER'" class="w-full py-3">
+
+    <div *ngIf="checkAllowance" class="w-full flex justify-center py-2 bg-red-300">
+      <span class="text-base font-medium italic">{{msgAllowance}}</span>
+    </div>
+
+    <p-carousel [value]="data" [numVisible]="3" [numScroll]="3" [circular]="false"
+      [responsiveOptions]="responsiveOptions">
+      <ng-template let-product #item>
+        <p-card>
+          <div class="p-5 pt-0">
+            <div class="mb-4">
+              <div class="relative mx-auto">
+                <span class="mb-4 font-medium text-xl italic">{{ product.name }}</span>
+              </div>
+            </div>
+
+            <p-divider />
+
+            <div class="flex justify-around items-center">
+              <span class="mt-2 font-semibold text-xl">{{ product.price }}</span>
+
+              <span [ngClass]="[product.bgColor ,'p-3', 'rounded-full']">
+                <i [ngClass]="[product.icon, 'text-3xl','font-extrabold', 'text-white']"></i>
+              </span>
+            </div>
+
+          </div>
+
+        </p-card>
+      </ng-template>
+    </p-carousel>
+
+
+
+  </div>
+
+  <p-toast
+    [breakpoints]="{'768px': {width: '60%', right: '0', left: '0'}, '425px': {width: '90%', right: '0', left: '0'} }"
+    [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'1000ms'" [hideTransitionOptions]="'1000ms'"
+    [showTransformOptions]="'translateX(100%)'" />
+  <p-confirmdialog />
+
+
+  <div class="w-full">
+    <p-divider class="bg-red-700"></p-divider>
+  </div>
+
+
+  <div class="w-full pb-4">
+    <app-finance></app-finance>
+  </div>
+
+  <app-reset-password [visible]="firstAcess"></app-reset-password>
+
+</div>

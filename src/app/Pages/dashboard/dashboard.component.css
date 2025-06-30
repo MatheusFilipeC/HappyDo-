@@ -1,0 +1,19 @@
+.p-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.p-card-header {
+  background-color: #4c6ef5;
+  color: white;
+  text-align: center;
+}
+
+.p-card-body {
+  padding: 20px;
+}
+
+.p-card-footer {
+  padding: 10px;
+}

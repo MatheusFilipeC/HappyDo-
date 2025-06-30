@@ -1,0 +1,164 @@
+<div class="w-full bg-slate-100 min-h-dvh">
+  <app-menu></app-menu>
+
+
+  <div class="w-full flex gap-3 p-2 containerMain">
+    <div class="w-full">
+      <p-card header="Gestão das tarefas">
+
+        <p-orderlist [value]="products" [responsive]="true" filterBy="titulo" filterPlaceholder="Titulo"
+          scrollHeight="26rem">
+
+          <ng-template let-option let-selected="selected" #item>
+
+
+            <div class="flex flex-wrap p-1 items-center gap-4 w-full containerContent">
+
+              <div class="md:w-20 relative removeDiv">
+                <i class="block xl:block mx-auto rounded-border w-full pi pi-th-large text-2xl text-amber-300"
+                  alt="Tarefas"></i>
+                <p-tag [value]="option.frequencia" [severity]="(option)" class="absolute" [style.left.px]="20"
+                  [style.top.px]="-12" styleClass="tag-manager-list" />
+              </div>
+
+
+              <div class="flex-1 flex flex-col">
+                <span class="font-normal text-xs "><b class="italic">Início:</b> {{option.dataInicio }} <b
+                    class="italic">até </b> {{option.dataFim}}</span>
+                <span [ngClass]="{
+                            'text-sm': true,
+                            'text-surface-500': !selected,
+                            'dark:text-surface-400': !selected,
+                            'text-inherit': selected, 'fontResponsiveSmall': true}">{{ option.descricao }}</span>
+              </div>
+
+              <div *ngIf="userRole == 'ADMIN'" class="flex gap-2">
+
+                <!-- COLOCAR OS BOTÕES DE EDITAR E EXCLUIR -->
+                <p-button pTooltip="Editar tarefa" icon="pi pi-pencil" (onClick)="openModalUpdateTask(option)"
+                  [rounded]="true" severity="info" [disabled]="option.done" />
+
+                <p-button pTooltip="Excluir tarefa" icon="pi pi-trash" (onClick)="deleteTask(option)" [rounded]="true"
+                  severity="danger" />
+
+              </div>
+
+            </div>
+
+
+          </ng-template>
+
+
+        </p-orderlist>
+
+
+      </p-card>
+    </div>
+
+    <div class="w-full flex flex-col gap-2">
+      <p-card header="Download relatórios">
+      </p-card>
+
+      <p-card>
+
+        <div class="w-full py-4 flex flex-col gap-6">
+          <h2 class="text-2xl font-semibold text-center italic">Veja seu progresso!</h2>
+          <i class="pi pi-file-pdf font-bold text-7xl text-center text-blue-700"></i>
+        </div>
+
+        <div class="w-full flex items-center justify-center pt-4">
+          <p-button label="Baixar relatório global" class="w-3/4 widthFullBtn" [rounded]="true" styleClass="width-full"
+            [raised]="true" icon="pi pi-download" (onClick)="downloadGlobalPDF()" />
+        </div>
+
+
+        <form [formGroup]="registerForm" (ngSubmit)="onReportTaskMonth()">
+          <div class="w-full flex justify-center pt-5 containerFlexColumn">
+
+            <div class="w-full">
+              <p-floatlabel variant="on">
+                <p-datepicker showIcon iconDisplay="input" view="month" dateFormat="mm/yy" formControlName="dataInicio"
+                  styleClass="width-full" name="dataInicio" inputId="on_label" [readonlyInput]="true"
+                  [class]="(registerForm.controls['dataInicio'].invalid && (registerForm.controls['dataInicio'].touched || registerForm.controls['dataInicio'].dirty))? classError : class" />
+                <label for="on_label">De</label>
+              </p-floatlabel>
+
+              <div
+                *ngIf="(registerForm.controls['dataInicio'].invalid && (registerForm.controls['dataInicio'].touched || registerForm.controls['dataInicio'].dirty))">
+
+                <span class="text-xs text-red-600 font-semibold"
+                  *ngIf="registerForm.controls['dataInicio'].errors?.['required']">Data de início precisa ser
+                  preenchido!</span>
+
+              </div>
+
+            </div>
+
+            <div class="p-2 py-0">
+              <p-divider class="my-2" align="center" type="solid">
+                <b>Data</b>
+              </p-divider>
+            </div>
+
+            <div class="w-full">
+              <p-floatlabel variant="on">
+                <p-datepicker showIcon iconDisplay="input" view="month" dateFormat="mm/yy" inputId="on_label"
+                  formControlName="dataFim" styleClass="width-full" name="dataFim" [readonlyInput]="true"
+                  [minDate]="registerForm.get('dataInicio')?.value || null"
+                  [class]="(registerForm.controls['dataFim'].invalid && (registerForm.controls['dataFim'].touched || registerForm.controls['dataFim'].dirty))? classError : class" />
+                <label for="on_label">até</label>
+              </p-floatlabel>
+
+              <div
+                *ngIf="(registerForm.controls['dataFim'].invalid && (registerForm.controls['dataFim'].touched || registerForm.controls['dataFim'].dirty))">
+
+
+                <span class="text-xs text-red-600 font-semibold"
+                  *ngIf="registerForm.controls['dataFim'].errors?.['required']">Data de término precisa ser
+                  preenchido!</span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <p-divider />
+
+          <div class="w-full flex items-center justify-center py-4">
+            <p-button label="Baixar relatório por período" type="submit" class="w-3/4 widthFullBtn" [loading]="loading"
+              [rounded]="true" [disabled]="registerForm.invalid" styleClass="width-full" [raised]="true"
+              icon="pi pi-download" />
+          </div>
+
+
+        </form>
+      </p-card>
+
+
+
+    </div>
+    <p-toast
+      [breakpoints]="{'768px': {width: '60%', right: '0', left: '0'}, '425px': {width: '90%', right: '0', left: '0'} }"
+      [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'1000ms'" [hideTransitionOptions]="'1000ms'"
+      [showTransformOptions]="'translateX(100%)'" />
+    <p-confirmdialog />
+
+  </div>
+
+
+  <div class="pb-3 flex justify-center w-full">
+    <app-report-task-global></app-report-task-global>
+  </div>
+
+  <div class="pb-3 flex justify-center w-full">
+    <app-report-task-month [dateStart]="dateStartSelected" [dateEnd]="dateEndSelected"></app-report-task-month>
+  </div>
+
+  <div class="pb-3 flex justify-center w-full">
+    <app-update-task [visible]="visibleUpdate" (refreshList)="getTaskUser()"></app-update-task>
+  </div>
+
+
+
+</div>

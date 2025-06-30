@@ -1,0 +1,31 @@
+@media (max-width: 675px) {
+  .widthFullCard {
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 425px) {
+  .widthEmptyMessage {
+    width: 300px;
+  }
+}
+
+@media (max-width: 375px) {
+  .panelsTab {
+    padding: 0px;
+  }
+
+  .fontSizeMedium {
+    font-size: medium;
+  }
+
+  .fontSizeSmall {
+    font-size: small;
+  }
+
+  .containerTablePadding {
+    padding: 10px 2px;
+  }
+
+
+}

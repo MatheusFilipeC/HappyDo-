@@ -1,0 +1,108 @@
+<p-dialog header="Relatório anual" [modal]="true" [(visible)]="visible" [style]="{ width: '41rem', padding: '0px' }"
+  [draggable]="false" [resizable]="false" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+
+  <div #contentExpenseYear class="viewReport border-2 bg-white ">
+
+    <div class="w-full flex justify-between p-4">
+      <span class="text-lg font-semibold">{{userName}}</span>
+      <span class="text-sm font-semibold">Ano: <span>{{year}}</span></span>
+    </div>
+
+
+
+    <div class="w-full h-full flex flex-col gap-3">
+
+      <div class="w-full border p-2 py-3 rounded-xl">
+        <div class="w-full flex justify-around  items-start pb-2 ">
+          <span class=" font-medium italic text-lg">Gasto anual em <span>{{year}}</span></span>
+          <span class="text-lg italic font-medium">
+            {{formatValueCurrencyBR(totalAnual)}}
+          </span>
+        </div>
+      </div>
+
+      <p-divider class="m-1"></p-divider>
+
+
+      <div class="w-full pb-2">
+        <div class="w-full border p-2 py-3 rounded-xl">
+          <div class="w-full flex justify-evenly items-center pb-2">
+            <span class=" font-medium  text-lg">
+              Total <span class="ps-1">em</span> não essencial: <span>{{year}}</span>
+            </span>
+          </div>
+          <p-divider class="m-1"></p-divider>
+
+          <div class="p-4 pt-1">
+            <div class="flex items-center justify-center">
+              <span class="text-2xl font-semibold">
+                {{formatValueCurrencyBR(totalNaoEssencial)}}
+                <span class="text-base ps-1 italic">em - {{year}}</span>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="w-full pb-2">
+        <div class="w-full border p-2 py-3 rounded-xl">
+          <div class="w-full flex justify-evenly items-center pb-2">
+            <span class=" font-medium  text-lg">
+              Total <span class="ps-1">em</span> essencial: <span>{{year}}</span>
+            </span>
+          </div>
+          <p-divider class="m-1"></p-divider>
+
+          <div class="p-4 pt-1">
+            <div class="flex items-center justify-center">
+              <span class="text-2xl font-semibold">
+                {{formatValueCurrencyBR(totalEssencial)}}
+                <span class="text-base ps-1 italic">em - {{year}}</span>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+
+      <div class="w-full pb-2">
+        <div class="w-full border p-2 py-3 rounded-xl">
+          <div class="w-full flex justify-evenly items-center pb-2">
+            <span class=" font-medium  text-lg">
+              Total <span class="ps-1">em</span> todas categorias anualmente: <span>{{year}}</span>
+            </span>
+          </div>
+          <p-divider class="m-1"></p-divider>
+
+          <div class="p-4 pt-1">
+            <div class="flex items-center justify-center">
+              <span class="text-2xl font-semibold">
+                {{formatValueCurrencyBR(totalAnual)}}
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+
+
+
+
+
+  </div>
+
+  <ng-template #footer>
+    <div class=" w-full p-2 flex justify-end">
+      <p-button icon="pi pi-print" [rounded]="true" pTooltip="Exportar para PDF" [text]="true" [raised]="true"
+        (onClick)="reportPDFTask()" />
+    </div>
+  </ng-template>
+
+</p-dialog>

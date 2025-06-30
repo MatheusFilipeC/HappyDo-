@@ -1,0 +1,11 @@
+@media (max-width: 768px) {
+
+  .removePaddingAndMargin {
+    padding: 0px;
+    margin: 0px;
+  }
+
+  .widthFullBtn{
+    width: 100%;
+  }
+}

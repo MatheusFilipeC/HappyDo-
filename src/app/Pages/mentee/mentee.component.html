@@ -1,0 +1,140 @@
+<div class="w-full bg-slate-100 min-h-dvh">
+  <app-menu></app-menu>
+
+
+  <div class="w-full p-2">
+
+    <div class="w-full">
+      <p-card header="Mentorados">
+        <p-dataview #dv [value]="userMenteeFiltered" [sortField]="sortField" [sortOrder]="sortOrder">
+          <ng-template #header>
+            <div class="flex flex-col md:flex-row md:justify-between">
+              <p-select [options]="nameMentee" name="selectedUser" [checkmark]="true" optionLabel="mentee"
+                [showClear]="true" placeholder="Mentorado" (onChange)="onMenteeSelect($event)" class="w-60" />
+            </div>
+          </ng-template>
+
+          <ng-template #list let-items>
+
+            <p-scrollpanel *ngIf="this.userMentee.length != 0" [style]="{ width: '100%', height: '385px' }">
+              <div *ngIf="this.userMentee.length != 0" class="grid grid-cols-12 gap-4 grid-nogutter">
+
+                <div class="col-span-12" *ngFor="let item of items; let first = first">
+
+                  <div class="flex p-1 items-center gap-2 w-full containerMenteeResponsive">
+
+
+
+                    <div class="w-1/12 flex justify-center items-center px-4">
+                      <i class="rounded-border pi pi-user text-4xl text-blue-700" alt="user"></i>
+                    </div>
+
+
+                    <div class="flex flex-col w-1/3">
+                      <span class="font-medium text-lg fontResponsiveMedium">{{ item.nome }}</span>
+                      <span class="font-medium text-base italic text-slate-400 fontResponsiveSmall">{{ item.email
+                        }}</span>
+                    </div>
+
+                    <div class="flex items-center justify-evenly gap-2 w-full">
+
+                      <div class="">
+                        <p-knob [(ngModel)]="item.aproveitamento" pTooltip="Desempenho atual" tooltipPosition="bottom"
+                          [strokeWidth]="5" valueTemplate="{value}%" [readonly]="true" />
+                      </div>
+                      <div class="">
+                        <p-divider layout="vertical" />
+                      </div>
+
+                      <div class="flex flex-col w-full">
+                        <span class="text-lg fontResponsiveSmall">Saldo disponível: </span>
+                        <span class="font-semibold text-base italic">
+                          {{formatValueCurrencyBR(item.saldo)}}
+                        </span>
+                      </div>
+
+
+
+                    </div>
+
+                    <div class="">
+                      <p-divider layout="vertical"/>
+                    </div>
+
+                    <div class="flex gap-2 w-full items-center">
+
+                      <div class="flex flex-col w-full">
+                        <span class="text-lg fontResponsiveSmall">Mesada depositada:</span>
+                        <span class="font-semibold text-base italic">
+                          {{formatValueCurrencyBR(item.valorMesadaMensal) || 0}}
+                        </span>
+                      </div>
+
+                      <div class="">
+                        <p-divider layout="vertical" />
+                      </div>
+
+                      <div class="flex flex-col w-full">
+                        <span class="text-lg fontResponsiveSmall">Despesas:</span>
+                        <span class="font-semibold text-base italic">
+                          {{formatValueCurrencyBR(item.despesasTotal) || 0}}
+                        </span>
+                      </div>
+
+                    </div>
+
+
+                    <div class="w-full">
+                      <div class="relative">
+                        <p-speeddial [model]="menu" direction="left" [tooltipOptions]="{ tooltipPosition: 'top' }"
+                          (onClick)="valueUserMentee(item)"
+                          [style]="{ position: 'absolute', top: 'calc(50% - 1rem)', right: 0, left: 0 }" />
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+              </div>
+            </p-scrollpanel>
+          </ng-template>
+
+          <ng-template #emptymessage>
+            <div class="w-full flex flex-col items-center justify-center p-4">
+              <i class="pi pi-user-plus text-blue-400 text-6xl p-3"></i>
+              <h2 class="text-2xl font-semibold italic">Sem mentorados no momento</h2>
+            </div>
+          </ng-template>
+
+        </p-dataview>
+
+
+        <div class="w-full card flex flex-wrap justify-center">
+          <p-button icon="pi pi-plus" [rounded]="true" [text]="true" tooltipPosition="top" pTooltip="Add novo mentorado"
+            [raised]="true" severity="success" (onClick)="openModalAddMentee()" />
+        </div>
+
+
+      </p-card>
+    </div>
+
+  </div>
+
+  <p-toast
+    [breakpoints]="{'768px': {width: '60%', right: '0', left: '0'}, '425px': {width: '90%', right: '0', left: '0'} }"
+    [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'1000ms'" [hideTransitionOptions]="'1000ms'"
+    [showTransformOptions]="'translateX(100%)'" />
+  <p-confirmdialog />
+
+
+
+  <app-update-mentee [userSelected]="userMenteeSelected" (menteeUpdated)="getMentee()">
+  </app-update-mentee>
+  <app-add-payment [userSelected]="userMenteeSelected" (menteeUpdated)="getMentee()"></app-add-payment>
+  <app-add-mentee (menteeUpdated)="getMentee()"></app-add-mentee>
+
+
+
+</div>

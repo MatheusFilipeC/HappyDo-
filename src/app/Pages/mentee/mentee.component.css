@@ -1,0 +1,13 @@
+@media (max-width: 1024px) {
+  .fontResponsiveMedium {
+    font-size: medium !important;
+  }
+
+  .fontResponsiveSmall {
+    font-size: small !important;
+  }
+
+  .containerMenteeResponsive {
+    min-width: 965px;
+  }
+}
