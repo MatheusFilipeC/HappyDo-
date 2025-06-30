@@ -1,59 +1,93 @@
-# FrontHappyDo
+# 💻 Projeto Happydo
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.6.
+Sistema web composto por front-end em Angular e back-end em Java, com integração a banco de dados Oracle.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🛠 Pré-requisitos
 
-```bash
-ng serve
-```
+Antes de começar, verifique se você tem os seguintes softwares instalados:
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [IntelliJ IDEA Community](https://www.jetbrains.com/idea/download/#section=windows)
+- [JDK 21](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html)
+- [Oracle Database XE](https://www.oracle.com/br/database/technologies/xe-downloads.html)
+- [SQL Developer](https://www.oracle.com/tools/downloads/sqldev-downloads.html)
+- [Node.js (com npm)](https://nodejs.org/)
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🧭 Passo a Passo de Instalação
 
-```bash
-ng generate component component-name
-```
+### 📦 1. Instalação dos Softwares
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+1. Instale o **VSCode**.
+2. Instale o **IntelliJ IDEA Community**.
+3. Instale o **JDK 21**.
+4. Instale o **Oracle XE** (Banco de Dados).
+5. Instale o **SQL Developer**.
 
-```bash
-ng generate --help
-```
+---
 
-## Building
+### 🛢️ 2. Configuração do Banco de Dados
 
-To build the project run:
+1. Abra o **Prompt de Comando (cmd)**.
+2. Execute o seguinte comando:
+   sqlplus
 
-```bash
-ng build
-```
+3. Digite o usuário e senha:
+   ```
+   Usuário: system  
+   Senha: admin123
+   ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+### 📂 3. Obtenção do Código
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+1. Faça o download ou clone os repositórios do Git:
+   - Front-end (Angular)
+   - Back-end (Java Spring Boot)
 
-```bash
-ng test
-```
+2. Coloque cada parte em **pastas separadas**.
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+## ▶️ Execução do Projeto
 
-```bash
-ng e2e
-```
+### 🔸 Front-end (Angular)
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+1. No **VSCode**, abra a pasta do projeto front-end.
+2. No terminal, execute:
+   npm install
+   ng serve
 
-## Additional Resources
+3. Acesse no navegador:
+   ```
+   http://localhost:4200/
+   ```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+
+### 🔹 Back-end (Java)
+
+1. No **IntelliJ IDEA Community**, abra o projeto do back-end.
+2. Localize a classe:
+   ```
+   HappydoApplication.java
+   ```
+3. Clique em **Run** ao lado da classe para iniciar o back-end.
+
+---
+
+## 🚀 Tecnologias Utilizadas
+
+- Angular
+- Node.js e npm
+- Java 21
+- Spring Boot
+- Oracle Database XE
+- SQL Developer
+- IntelliJ IDEA Community
+- Visual Studio Code
+
